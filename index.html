@@ -77,9 +77,9 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-SpringSecurity" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-SpringSecurity原理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/03/02/SpringSecurity/" class="article-date">
+    <a href="/2021/03/02/SpringSecurity%E5%8E%9F%E7%90%86/" class="article-date">
   <time class="dt-published" datetime="2021-03-02T09:07:54.000Z" itemprop="datePublished">2021-03-02</time>
 </a>
     
@@ -91,7 +91,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/03/02/SpringSecurity/">SpringSecurity原理</a>
+      <a class="p-name article-title" href="/2021/03/02/SpringSecurity%E5%8E%9F%E7%90%86/">SpringSecurity原理</a>
     </h1>
   
 
@@ -101,7 +101,7 @@
       
         <h1 id="SpringSecurity原理"><a href="#SpringSecurity原理" class="headerlink" title="SpringSecurity原理"></a><strong>SpringSecurity原理</strong></h1><h3 id="一、SpringSecurity过滤器链"><a href="#一、SpringSecurity过滤器链" class="headerlink" title="一、SpringSecurity过滤器链"></a>一、SpringSecurity过滤器链</h3><ol>
 <li><code>SpringSecurity</code>的底层实现是一条过滤器链，也就是说用户进来后，由这些过滤器链判断是否有请求的权限，如果有权限则放过；没有权限的化就会抛出异常，重定向到要跳转的页面</li>
-<li><code>SpringSecurity</code> 采用的是责任链的设计模式，它有一条很长的过滤器链。现在对这条过滤器链的各个进行说明:<br>&emsp;&emsp;2.1 <code>WebAsyncManagerIntegrationFilter</code>：将<code>Security</code>上下文与<code>Spring Web</code>中用于处理异步请求映射的<code>WebAsyncManager</code>进行集成;<br>&emsp;&emsp;2.2 <code>SecurityContextPersistenceFilter</code>：在每次请求处理之前将该请求相关的安全上下文信息加载到<code>SecurityContextHolder</code>中，然后在该次请求处理完成之后，将<code>SecurityContextHolder</code>中关于这次请求的信息存储到一个”仓储”中，然后将<code>SecurityContextHolder</code>中的信息清除，例如：在<code>Session</code>中维护一个用户的安全信息就是这个过滤器处理的;<br>&emsp;&emsp;2.3 HeaderWriterFilter：用于将头信息加入到响应中;<br>&emsp;&emsp;2.4 CsrfFilter：用于处理跨站请求伪造;<br>&emsp;&emsp;2.5 LogoutFilter：用于处理退出登录;<br>&emsp;&emsp;2.6 UsernamePasswordAuthenticationFilter：用于处理基于表单的登录请求，从表单中获取用户名和密码。默认情况下处理来自/login的请求。从表单中获取用户名和密码时，默认使用的name的值为username和password，这两个值可以通过设置这个过滤器的usernameParameter和passwordParameter两个参数的值进行修改。<br>&emsp;&emsp;2.7 DefaultLoginPageGeneratingFilter：如果没有配置登录页面，那系统初始化时就会配置这个过滤器，并且在需要进行登陆时生成一个登录表单页面。<br>&emsp;&emsp;2.8 BasicAuthenticationFilter：检测和处理http basic认证。<br>&emsp;&emsp;2.9 RequestCacheAwareFilter：用来处理请求的缓存。<br>&emsp;&emsp;2.10 SecurityContextHolderAwareRequestFilter：主要包装请求的Requeest。<br>&emsp;&emsp;2.11 AnonymousAuthenticationFilter： 检测SecurityContextHolder中是否存在Authentication对象，如果不存在为其提供一个匿名Authentication。<br>SpringSecurity原理/SpringSecurity流程图.png SpringSecurity原理/SpringSecurity流程图.png &emsp;&emsp;2.12 SessionManagementFilter：管理session的过滤器。<br>&emsp;&emsp;2.13 ExceptionTranslationFilter：处理AccessDeniedException 和 AuthenticationException异常。<br>&emsp;&emsp;2.14 FilterSecurityInterceptor：过滤器链的出口。<br>&emsp;&emsp;2.15 RememberMeAuthenticationFilter：当用户没有登录而直接访问资源时，从cookie中找出用户的信息，如果Spring Security能够识别出用户提供的remember me cookie,用户将不必填写用户名和密码，而是直接登录进入系统，该过滤器默认不开启。<h3 id="二、SpringSecurity流程图-如链接中流程图"><a href="#二、SpringSecurity流程图-如链接中流程图" class="headerlink" title="二、SpringSecurity流程图(如链接中流程图)"></a>二、SpringSecurity流程图(如链接中流程图)</h3>&emsp;&emsp;<a target="_blank" rel="noopener" href="http://note.youdao.com/noteshare?id=93708e50e2955cdd334c2400412c3ec0&sub=32EEFBB9B8CC4507B76C00F14EBD926B/">SpringSecurity流程图</a><img src="/2021/03/02/SpringSecurity/SpringSecurity.png" class="">
+<li><code>SpringSecurity</code> 采用的是责任链的设计模式，它有一条很长的过滤器链。现在对这条过滤器链的各个进行说明:<br>&emsp;&emsp;2.1 <code>WebAsyncManagerIntegrationFilter</code>：将<code>Security</code>上下文与<code>Spring Web</code>中用于处理异步请求映射的<code>WebAsyncManager</code>进行集成;<br>&emsp;&emsp;2.2 <code>SecurityContextPersistenceFilter</code>：在每次请求处理之前将该请求相关的安全上下文信息加载到<code>SecurityContextHolder</code>中，然后在该次请求处理完成之后，将<code>SecurityContextHolder</code>中关于这次请求的信息存储到一个”仓储”中，然后将<code>SecurityContextHolder</code>中的信息清除，例如：在<code>Session</code>中维护一个用户的安全信息就是这个过滤器处理的;<br>&emsp;&emsp;2.3 HeaderWriterFilter：用于将头信息加入到响应中;<br>&emsp;&emsp;2.4 CsrfFilter：用于处理跨站请求伪造;<br>&emsp;&emsp;2.5 LogoutFilter：用于处理退出登录;<br>&emsp;&emsp;2.6 UsernamePasswordAuthenticationFilter：用于处理基于表单的登录请求，从表单中获取用户名和密码。默认情况下处理来自/login的请求。从表单中获取用户名和密码时，默认使用的name的值为username和password，这两个值可以通过设置这个过滤器的usernameParameter和passwordParameter两个参数的值进行修改。<br>&emsp;&emsp;2.7 DefaultLoginPageGeneratingFilter：如果没有配置登录页面，那系统初始化时就会配置这个过滤器，并且在需要进行登陆时生成一个登录表单页面。<br>&emsp;&emsp;2.8 BasicAuthenticationFilter：检测和处理http basic认证。<br>&emsp;&emsp;2.9 RequestCacheAwareFilter：用来处理请求的缓存。<br>&emsp;&emsp;2.10 SecurityContextHolderAwareRequestFilter：主要包装请求的Requeest。<br>&emsp;&emsp;2.11 AnonymousAuthenticationFilter： 检测SecurityContextHolder中是否存在Authentication对象，如果不存在为其提供一个匿名Authentication。<br>SpringSecurity原理/SpringSecurity流程图.png SpringSecurity原理/SpringSecurity流程图.png &emsp;&emsp;2.12 SessionManagementFilter：管理session的过滤器。<br>&emsp;&emsp;2.13 ExceptionTranslationFilter：处理AccessDeniedException 和 AuthenticationException异常。<br>&emsp;&emsp;2.14 FilterSecurityInterceptor：过滤器链的出口。<br>&emsp;&emsp;2.15 RememberMeAuthenticationFilter：当用户没有登录而直接访问资源时，从cookie中找出用户的信息，如果Spring Security能够识别出用户提供的remember me cookie,用户将不必填写用户名和密码，而是直接登录进入系统，该过滤器默认不开启。<h3 id="二、SpringSecurity流程图-如链接中流程图"><a href="#二、SpringSecurity流程图-如链接中流程图" class="headerlink" title="二、SpringSecurity流程图(如链接中流程图)"></a>二、SpringSecurity流程图(如链接中流程图)</h3>&emsp;&emsp;<a target="_blank" rel="noopener" href="http://note.youdao.com/noteshare?id=93708e50e2955cdd334c2400412c3ec0&sub=32EEFBB9B8CC4507B76C00F14EBD926B/">SpringSecurity流程图</a><img src="/2021/03/02/SpringSecurity%E5%8E%9F%E7%90%86/SpringSecurity.png" class="">
 <h3 id="三、SpringSecurity流程说明"><a href="#三、SpringSecurity流程说明" class="headerlink" title="三、SpringSecurity流程说明"></a>三、SpringSecurity流程说明</h3></li>
 <li>客户端发起请求，进入过滤器链</li>
 <li>当到LogoutFilter的时候判断是否是登出路径，如果是登出路径则到LogoutHandler，如果登出成功则到logoutSuccessHandler登出成功处理，如果登出失败则由 ExceptionTranslationFilter，如果不是登出路径则直接进入下一个过滤器。</li>
@@ -127,7 +127,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://yeqiu001.github.io/2021/03/02/SpringSecurity/" data-id="cklt2hxw20001e8eubxxo0nbk" data-title="SpringSecurity原理" class="article-share-link">分享</a>
+      <a data-url="https://yeqiu001.github.io/2021/03/02/SpringSecurity%E5%8E%9F%E7%90%86/" data-id="cklt2qba1000087eu7da5701j" data-title="SpringSecurity原理" class="article-share-link">分享</a>
       
       
       
@@ -180,7 +180,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://yeqiu001.github.io/2021/03/02/hello-world/" data-id="cklt2hxvv0000e8eu8mk722ns" data-title="Hello World" class="article-share-link">分享</a>
+      <a data-url="https://yeqiu001.github.io/2021/03/02/hello-world/" data-id="cklt2qba6000187eudh9xcz6u" data-title="Hello World" class="article-share-link">分享</a>
       
       
       
@@ -237,7 +237,7 @@
       <ul>
         
           <li>
-            <a href="/2021/03/02/SpringSecurity/">SpringSecurity原理</a>
+            <a href="/2021/03/02/SpringSecurity%E5%8E%9F%E7%90%86/">SpringSecurity原理</a>
           </li>
         
           <li>
