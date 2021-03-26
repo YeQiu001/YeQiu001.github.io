@@ -39,6 +39,9 @@
   <div id="app">
     
       
+      <canvas width="1777" height="841"
+        style="position: fixed; left: 0px; top: 0px; z-index: 99999; pointer-events: none;"></canvas>
+      
     <main class="content on">
       
 <section class="cover">
@@ -79,7 +82,7 @@
   <script>
     try {
       var typed = new Typed("#subtitle", {
-        strings: ['面朝大海，春暖花开', '愿你一生努力，一生被爱', '想要的都拥有，得不到的都释怀'],
+        strings: ['落暮寒鸦添秋意，小桥流水任寂寥', '愿你一生努力，一生被爱', '想要的都拥有，得不到的都释怀'],
         startDelay: 0,
         typeSpeed: 200,
         loop: true,
@@ -93,22 +96,6 @@
   
 <div id="main">
   <section class="outer">
-  
-  <ul class="ads">
-    
-        <li>
-            <a target="_blank" rel="noopener" href="https://curl.qcloud.com/ezctH6FU">
-                <img src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/ten_1.jpg" width="300" alt="腾讯云限时秒杀">
-            </a>
-        </li>
-    
-        <li>
-            <a target="_blank" rel="noopener" href="https://curl.qcloud.com/kvO7hb43">
-                <img src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/ten_2.jpg" width="300" alt="云服务器全球购低至2折">
-            </a>
-        </li>
-    
-</ul>
   
   
   
@@ -182,21 +169,7 @@
   <time datetime="2021-03-24T16:00:00.000Z" itemprop="datePublished">2021-03-25</time>
 </a>    
     </div>
-      
-    <div class="article-entry" itemprop="articleBody">
        
-  <p>​        本问主要基于Spring boot框架进行Demo说明，首先创建一个Springboot 工程。</p>
-<h3 id="1-创建Springboot-工程"><a href="#1-创建Springboot-工程" class="headerlink" title="1.创建Springboot 工程"></a>1.创建Springboot 工程</h3><h3 id="2-引入Spring-Security-依赖"><a href="#2-引入Spring-Security-依赖" class="headerlink" title="2.引入Spring Security 依赖"></a>2.引入Spring Security 依赖</h3><p>​    我们可以直接引入Spring Security 的starter包</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-security<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>​    当我们查看spring-boot-starter-security引入的依赖时，我们可以看到starter主要引入了Spring Security的spring-security-config和spring-security-web包，我们也可以手动引入这两个包</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.security<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-security-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.4.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.security<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-security-config<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.4.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
- 
-      <!-- reward -->
-      
-    </div>
-    
 
     <!-- copyright -->
     
@@ -235,62 +208,7 @@
   <time datetime="2021-03-02T09:07:54.000Z" itemprop="datePublished">2021-03-02</time>
 </a>    
     </div>
-      
-    <div class="article-entry" itemprop="articleBody">
        
-  <h1 id="SpringSecurity原理"><a href="#SpringSecurity原理" class="headerlink" title="SpringSecurity原理"></a><strong>SpringSecurity原理</strong></h1><h3 id="一、SpringSecurity过滤器链"><a href="#一、SpringSecurity过滤器链" class="headerlink" title="一、SpringSecurity过滤器链"></a>一、SpringSecurity过滤器链</h3><ol>
-<li><code>SpringSecurity</code>的底层实现是一条过滤器链，也就是说用户进来后，由这些过滤器链判断是否有请求的权限，如果有权限则放过；没有权限的化就会抛出异常，重定向到要跳转的页面</li>
-<li><code>SpringSecurity</code> 采用的是责任链的设计模式，它有一条很长的过滤器链。现在对这条过滤器链的各个进行说明:<br>&emsp;&emsp;2.1 <code>WebAsyncManagerIntegrationFilter</code>：将<code>Security</code>上下文与<code>Spring Web</code>中用于处理异步请求映射的<code>WebAsyncManager</code>进行集成;<br>&emsp;&emsp;2.2 <code>SecurityContextPersistenceFilter</code>：在每次请求处理之前将该请求相关的安全上下文信息加载到<code>SecurityContextHolder</code>中，然后在该次请求处理完成之后，将<code>SecurityContextHolder</code>中关于这次请求的信息存储到一个”仓储”中，然后将<code>SecurityContextHolder</code>中的信息清除，例如：在<code>Session</code>中维护一个用户的安全信息就是这个过滤器处理的;<br>&emsp;&emsp;2.3<code>HeaderWriterFilter</code>：用于将头信息加入到响应中;<br>&emsp;&emsp;2.4 <code>CsrfFilter</code>：用于处理跨站请求伪造;<br>&emsp;&emsp;2.5 <code>LogoutFilter</code>：用于处理退出登录;<br>&emsp;&emsp;2.6 <code>UsernamePasswordAuthenticationFilter</code>：用于处理基于表单的登录请求，从表单中获取用户名和密码。默认情况下处理来自/login的请求。从表单中获取用户名和密码时，默认使用的<code>name</code>的值为<code>username</code>和<code>password</code>，这两个值可以通过设置这个过滤器的<code>usernameParameter</code>和<code>passwordParameter</code>两个参数的值进行修改。<br>&emsp;&emsp;2.7 <code>DefaultLoginPageGeneratingFilter</code>：如果没有配置登录页面，那系统初始化时就会配置这个过滤器，并且在需要进行登陆时生成一个登录表单页面。<br>&emsp;&emsp;2.8 <code>BasicAuthenticationFilter</code>：检测和处理<code>http basic</code>认证。<br>&emsp;&emsp;2.9 <code>RequestCacheAwareFilter</code>：用来处理请求的缓存。<br>&emsp;&emsp;2.10 <code>SecurityContextHolderAwareRequestFilter</code>：主要包装请求的<code>Requeest</code>。<br>&emsp;&emsp;2.11 <code>AnonymousAuthenticationFilter</code>： 检测<code>SecurityContextHolder</code>中是否存在<code>Authentication</code>对象，如果不存在为其提供一个匿名<code>Authentication</code>。<br>&emsp;&emsp;2.12 <code>SessionManagementFilter</code>：管理<code>session</code>的过滤器。<br>&emsp;&emsp;2.13 <code>ExceptionTranslationFilter</code>：处理<code>AccessDeniedException</code>和<code>AuthenticationException</code>异常。<br>&emsp;&emsp;2.14 <code>FilterSecurityInterceptor</code>：过滤器链的出口。<br>&emsp;&emsp;2.15 <code>RememberMeAuthenticationFilter</code>：当用户没有登录而直接访问资源时，从<code>cookie</code>中找出用户的信息，如果<code>Spring Security</code>能够识别出用户提供的<code>remember me cookie</code>,用户将不必填写用户名和密码，而是直接登录进入系统，该过滤器默认不开启。<h3 id="二、SpringSecurity流程图-如链接中流程图"><a href="#二、SpringSecurity流程图-如链接中流程图" class="headerlink" title="二、SpringSecurity流程图(如链接中流程图)"></a>二、SpringSecurity流程图(如链接中流程图)</h3>&emsp;&emsp;<a target="_blank" rel="noopener" href="http://note.youdao.com/noteshare?id=93708e50e2955cdd334c2400412c3ec0&sub=32EEFBB9B8CC4507B76C00F14EBD926B/">SpringSecurity流程图</a><img src="/2021/03/02/SpringSecurity%E5%8E%9F%E7%90%86/SpringSecurity%E5%8E%9F%E7%90%86.png" class=""></li>
-</ol>
-<h3 id="三、SpringSecurity流程说明"><a href="#三、SpringSecurity流程说明" class="headerlink" title="三、SpringSecurity流程说明"></a>三、SpringSecurity流程说明</h3><ol>
-<li>客户端发起请求，进入过滤器链</li>
-<li>当到<code>LogoutFilter</code>的时候判断是否是登出路径，如果是登出路径则到<code>LogoutHandler</code>，如果登出成功则到<code>logoutSuccessHandler</code>登出成功处理，如果登出失败则由<code>ExceptionTranslationFilter</code>，如果不是登出路径则直接进入下一个过滤器。</li>
-<li>当到<code>UsernamePasswordAuthenticationFilter</code>的时候判断是否为登录路径，如果是，则进入该过滤器进行登录操作，如果登录失败则到<code>AuthenticationFailureHandler</code>登录失败处理器处理，如果登录成功则到<code>AuthenticationSuccessHandler</code>登录成功处理器处理，如果不是登录请求则不进入该过滤器。</li>
-<li>当到<code>FilterSecurityInterceptor</code>的时候会拿到uri，根据uri去找对应的鉴权管理器，鉴权管理器做鉴权工作，鉴权成功则到<code>Controller</code>层否则到<code>AccessDeniedHandler</code>鉴权失败处理器处理。<h3 id="四、SpringSecurity配置-简单介绍，详细使用方案会在后续使用文档中说明，本文档主要是介绍文档"><a href="#四、SpringSecurity配置-简单介绍，详细使用方案会在后续使用文档中说明，本文档主要是介绍文档" class="headerlink" title="四、SpringSecurity配置(简单介绍，详细使用方案会在后续使用文档中说明，本文档主要是介绍文档)"></a>四、SpringSecurity配置(简单介绍，详细使用方案会在后续使用文档中说明，本文档主要是介绍文档)</h3>&emsp;&emsp;<code>Springboot</code>需要在<code>WebSecurityconfigurerAdapter</code>这个类中实现上述流程图的配置，代码中需要实现这个类并重写其中需要使用的方法<h4 id="配置伪代码"><a href="#配置伪代码" class="headerlink" title="配置伪代码"></a>配置伪代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SecurityConfig</span> <span class="keyword">extends</span> <span class="title">WebSecurityConfigurerAdapter</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserDetailsService userDetailsService;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">config</span><span class="params">(AuthenticationManagerBuilder auth)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        auth.userDetailsService(userDetailsService).passwordEncoder(<span class="keyword">new</span> BCryptPasswordEncoder());  <span class="comment">//Security默认MD5加密方法</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span>	</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configure</span><span class="params">(WebSecurity web)</span> <span class="keyword">throws</span> Exception </span>&#123;	</span><br><span class="line">        web.ignoring().antMatchers(<span class="string">&quot;/resources/**/*.html&quot;</span>, <span class="string">&quot;/resources/**/*.js&quot;</span>);	</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">config</span><span class="params">(HttpSecurity http)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        http.formLogin.loginPage(<span class="string">&quot;login_page&quot;</span>)</span><br><span class="line">            .passwordParameter(<span class="string">&quot;username&quot;</span>)</span><br><span class="line">            .passwordParameter(<span class="string">&quot;password&quot;</span>)</span><br><span class="line">            .loginProcessingUrl(<span class="string">&quot;/sign_in&quot;</span>)</span><br><span class="line">            .permitAll()</span><br><span class="line">            .and().authorizeRequests().antMatchers(<span class="string">&quot;/test&quot;</span>).hasRole(<span class="string">&quot;test&quot;</span>)</span><br><span class="line">            .anyRequest().authenticated().accessDecisionManager(accessDecisionManager())</span><br><span class="line">            .and().logout().logoutSuccessHandler(<span class="keyword">new</span> MyLogoutSuccessHandler())</span><br><span class="line">            .and().csrf().disable();</span><br><span class="line">        http.addFilterAt(getAuthenticationFilter(),UsernamePasswordAuthenticationFilter.class);</span><br><span class="line">        http.exceptionHandling().accessDeniedHandler(<span class="keyword">new</span> MyAccessDeniedHandler());</span><br><span class="line">        http.addFilterAfter(<span class="keyword">new</span> MyFittler(), LogoutFilter.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="配置简介"><a href="#配置简介" class="headerlink" title="配置简介"></a>配置简介</h4>&emsp;&emsp;<code>config(AuthenticationManagerBuilder auth)</code> 配置Security认证的方法，<code>AuthenticationManagerBuilder</code>见明知义，就是构建一个<code>Authentication</code>的管理器，该类的功能参考<code>SpringSecurity</code>流程图中<code>AuthenticationManager</code>部分所示，该部分可以配置<code>UserDetailsService</code>和<code>PasswordEncoder</code>。<code>UserDetailsService</code>用于在认证器中根据用户传过来的用户名查找一个用户，在使用过程中，可以实现该接口，重写其中的方法，加载一个<code>UserDeatils</code>信息，认证通过后就会将该对象赋给认证通过的<code>Authentication</code>的<code>Principal</code>对象，后续需要对象信息时就通过<code>SecurityContextHolder</code>获取存放在<code>SecurityContext</code>中的<code>Authentication</code>的<code>principal</code>。<code>PasswordEncoder</code>用于密码的加密与比对，可以自定义加密方法。<br>&emsp;&emsp;<code>configure(WebSecurity web)</code> 配置静态资源的权限。<br>&emsp;&emsp;<code>config(HttpSecurity http)</code> 这个配置方法是<code>WebSecurityConfigurerAdapter</code>的核心配置方法，每个配置我们可以分开说明。</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">http.formLogin.loginPage(<span class="string">&quot;login_page&quot;</span>)</span><br><span class="line">    .passwordParameter(<span class="string">&quot;username&quot;</span>)</span><br><span class="line">    .passwordParameter(<span class="string">&quot;password&quot;</span>)</span><br><span class="line">    .loginProcessingUrl(<span class="string">&quot;/sign_in&quot;</span>)</span><br><span class="line">    .permitAll()</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;此段代码配置了登录页请求路径，密码属性名，用户名属性名，和登录请求路径,<code>permitAll()</code>代表任意用户可访问。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http.authorizeRequests().antMatchers(<span class="string">&quot;/test&quot;</span>)</span><br><span class="line">    .hasRole(<span class="string">&quot;test&quot;</span>).anyRequest().authenticated()</span><br><span class="line">    .accessDecisionManager(accessDecisionManager())</span><br></pre></td></tr></table></figure>
-<p>​        此段代码是对权限的配置，这段代码表示访问/test的URL时需要有test的权限方可访问，<code>anyRequest() </code>表示任意请求，<code>authenticated()</code>表示需要通过认证，<code>accessDecisionManager()</code> 表示绑定在url上的鉴权管理器。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http.logout().logoutSuccessHandler(<span class="keyword">new</span> MyLogoutSuccessHandler())</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;用户登出时的相关配置，<code>new MyLogoutSuccessHandler()</code>登出成功后的处理，可自定义。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http.csrf().disable();</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;此段代码是关闭csrf。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http.exceptionHandling().accessDeniedHandler(<span class="keyword">new</span> MyAccessDeniedHandler());</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;此段代码是配置鉴权失败的处理器。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http.addFilterAfter(<span class="keyword">new</span> MyFittler(), LogoutFilter.class);</span><br><span class="line">http.addFilterAt(getAuthenticationFilter(),UsernamePasswordAuthenticationFilter.class);</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;代码展示如何在过滤器链中插入自己的过滤器，<code>addFilterBefore</code>加在对应的过滤器之前，<code>addFilterAfter</code>加在对应的过滤器之后，<code>addFilterAt</code>加在过滤器同一位置，事实上框架原有的<code>Filter</code>在启动<code>HttpSecurity</code>配置的过程中，都由框架完成了其一定程度上固定的配置，是不允许更改替换的。根据测试结果来看，调用<code>addFilterAt</code>方法插入的<code>Filter</code>，会在这个位置上的原有<code>Filter</code>之前执行。</p>
-<h3 id="五、SpringSecurity权限系统"><a href="#五、SpringSecurity权限系统" class="headerlink" title="五、SpringSecurity权限系统"></a>五、SpringSecurity权限系统</h3><h4 id="UserDeatils"><a href="#UserDeatils" class="headerlink" title="UserDeatils"></a>UserDeatils</h4><p>&emsp;&emsp;<code>SpringSecurity</code>定义的用户接口，当我们需要自定义一些属性时，需要实现该接口。</p>
-<h4 id="GrantedAuthority"><a href="#GrantedAuthority" class="headerlink" title="GrantedAuthority"></a>GrantedAuthority</h4><p>&emsp;&emsp;<code>SpringSecurity</code>定义的用户权限接口，自定义权限需要实现该接口。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyGrantedAuthority</span> <span class="keyword">implements</span> <span class="title">GrantedAuthority</span> </span>&#123;	</span><br><span class="line">    <span class="keyword">private</span> String authority;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;<code>authority</code>是权限字段，需要注意的是在config中配置的权限会被加上<code>ROLE_</code>前缀，比如我们的配置<code>authorizeRequests().antMatchers(&quot;/test&quot;).hasRole(&quot;test&quot;)</code>，配置了一个test权限但我们存储的权限字段（authority）应该是<code>ROLE_test</code>。</p>
-<h4 id="UserDetailsService"><a href="#UserDetailsService" class="headerlink" title="UserDetailsService"></a>UserDetailsService</h4><p>&emsp;&emsp;<code>Security</code>中的用户<code>Service</code>，自定义用户服务类需要实现该接口,我们在<code>loadUserByUsername</code>中根据传入的用户名查询我们当前系统对应该对象的用户名和权限，构造<code>UserDetails</code>对象，再有框架去验证传入的对象信息和我们系统的对象信息是否一致。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span>	</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyUserDetailService</span> <span class="keyword">implements</span> <span class="title">UserDetailsService</span> </span>&#123;	</span><br><span class="line">    <span class="meta">@Override</span>	</span><br><span class="line">    <span class="function"><span class="keyword">public</span> UserDetails <span class="title">loadUserByUsername</span><span class="params">(String s)</span> <span class="keyword">throws</span> UsernameNotFoundException </span>&#123;	</span><br><span class="line">      return.....	</span><br><span class="line">    &#125;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="SecurityContextHolder"><a href="#SecurityContextHolder" class="headerlink" title="SecurityContextHolder"></a>SecurityContextHolder</h4><p>&emsp;&emsp;用户在完成登录后 <code>Security</code> 会将用户信息存储到这个类中，之后其他流程需要得到用户信息时都是从这个类中获得，用户信息被封装成 SecurityContext ，而实际存储的类是<code>SecurityContextHolderStrategy</code>，默认的<code>SecurityContextHolderStrategy</code> 实现类是 <code>ThreadLocalSecurityContextHolderStrategy</code> 它使用了<code>ThreadLocal</code>来存储了用户信息。<br>&emsp;&emsp;手动填充<code> SecurityContextHolder</code> 示例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">UsernamePasswordAuthenticationToken token &#x3D; new UsernamePasswordAuthenticationToken(&quot;test&quot;,&quot;test&quot;,list);	</span><br><span class="line">SecurityContextHolder.getContext().setAuthentication(token);</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;对于使用 token 鉴权的系统，我们就可以验证token后手动填充<code>SecurityContextHolder</code>，填充时机只要在执行投票器之前即可，或者干脆可以在投票器中填充，然后在登出操作中清空<code>SecurityContextHolder</code>。</p>
-<h3 id="Security扩展"><a href="#Security扩展" class="headerlink" title="Security扩展"></a>Security扩展</h3><p>&emsp;&emsp;可扩展的部分有:</p>
-<h5 id="emsp-emsp-1-鉴权失败处理器"><a href="#emsp-emsp-1-鉴权失败处理器" class="headerlink" title="&emsp;&emsp;1.鉴权失败处理器"></a>&emsp;&emsp;1.鉴权失败处理器</h5><p>&emsp;&emsp;Security 鉴权失败默认跳转登录页面，我们可以实现<code>AccessDeniedHandler</code>接口，重写 handle() 方法来自定义处理逻辑；然后参考配置类说明将处理器加入到配置当中。</p>
-<h5 id="emsp-emsp-2-验证器"><a href="#emsp-emsp-2-验证器" class="headerlink" title="&emsp;&emsp;2.验证器"></a>&emsp;&emsp;2.验证器</h5><p>&emsp;&emsp;实现<code> AuthenticationProvider</code> 接口来实现自己验证逻辑。需要注意的是在这个类里面就算你抛出异常，也不会中断验证流程，而是算你验证失败，我们由流程图知道，只要有一个验证器验证成功，就算验证成功，所以你需要留意这一点。</p>
-<h5 id="emsp-emsp-3-登录成功处理器"><a href="#emsp-emsp-3-登录成功处理器" class="headerlink" title="&emsp;&emsp;3.登录成功处理器"></a>&emsp;&emsp;3.登录成功处理器</h5><p>&emsp;&emsp;在Security中验证成功默认跳转到上一次请求页面或者路径为 “/“ 的页面，我们同样可以自定义：继承SimpleUrlAuthenticationSuccessHandler这个类或者实现<code>AuthenticationSuccessHandler</code>接口。我这里建议采用继承的方式,<code>SimpleUrlAuthenticationSuccessHandler</code>是默认的处理器，采用继承可以契合里氏替换原则，提高代码的复用性和避免不必要的错误。</p>
-<h5 id="emsp-emsp-4-投票器"><a href="#emsp-emsp-4-投票器" class="headerlink" title="&emsp;&emsp;4.投票器"></a>&emsp;&emsp;4.投票器</h5><p>&emsp;&emsp;投票器可继承<code>WebExpressionVoter</code>或者实现 <code>AccessDecisionVoter</code>接口；<code>WebExpressionVoter</code>是<code>Security</code>默认的投票器；我这里同样建议采用继承的方式；添加到配置的方式参考上文；<br>&emsp;&emsp;<strong>注意：投票器 vote 方法返回一个int值；-1代表反对，0代表弃权，1代表赞成；投票管理器收集投票结果，如果最终结果大于等于0则放行该请求。</strong></p>
-<h5 id="emsp-emsp-5-自定义token处理过滤器"><a href="#emsp-emsp-5-自定义token处理过滤器" class="headerlink" title="&emsp;&emsp;5.自定义token处理过滤器"></a>&emsp;&emsp;5.自定义token处理过滤器</h5><p>&emsp;&emsp;自定义 token 处理器继承自 <code>OncePerRequestFilter</code> 或者 <code>GenericFilterBean</code> 或者 <code>Filter</code> 都可以，在这个处理器里面需要完成的逻辑是：获取请求里的 token，验证 token 是否合法然后填充 <code>SecurityContextHolder</code> ，虽然说过滤器只要添加在投票器之前就可以，但我这里还是建议添加在 <code>http.addFilterAfter(new MyFittler(), LogoutFilter.class)</code>;</p>
-<h5 id="emsp-emsp-6-登出成功处理器"><a href="#emsp-emsp-6-登出成功处理器" class="headerlink" title="&emsp;&emsp;6.登出成功处理器"></a>&emsp;&emsp;6.登出成功处理器</h5><p>&emsp;&emsp;实现<code>LogoutSuccessHandler</code>接口，添加到配置的方式参考上文。</p>
-<h5 id="emsp-emsp-7-登出失败处理器"><a href="#emsp-emsp-7-登出失败处理器" class="headerlink" title="&emsp;&emsp;7.登出失败处理器"></a>&emsp;&emsp;7.登出失败处理器</h5><p>&emsp;&emsp;登录失败默认跳转到登录页，我们同样可以自定义。继承<code>SimpleUrlAuthenticationFailureHandler</code> 或者实现 <code>AuthenticationFailureHandler</code>。</p>
-<h5 id="emsp-emsp-8-自定义UsernamePasswordAuthenticationFilter"><a href="#emsp-emsp-8-自定义UsernamePasswordAuthenticationFilter" class="headerlink" title="&emsp;&emsp;8.自定义UsernamePasswordAuthenticationFilter"></a>&emsp;&emsp;8.自定义UsernamePasswordAuthenticationFilter</h5><p>&emsp;&emsp;我们自定义<code>UsernamePasswordAuthenticationFilter</code>可以极大提高我们Security的灵活性（比如添加验证验证码是否正确的功能）。我们直接继承<code>UsernamePasswordAuthenticationFilter</code>，然后在配置类中初始化这个过滤器，给这个过滤器添加登录失败处理器，登录成功处理器，登录管理器，登录请求url 。</p>
-<h5 id="emsp-emsp-示例代码"><a href="#emsp-emsp-示例代码" class="headerlink" title="&emsp;&emsp;示例代码"></a>&emsp;&emsp;示例代码</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 初始化过滤器</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function">MyUsernamePasswordAuthenticationFilte <span class="title">getAuthenticationFilter</span><span class="params">()</span></span>&#123;	</span><br><span class="line">    MyUsernamePasswordAuthenticationFilter myUsernamePasswordAuthenticationFilter = <span class="keyword">new</span> MyUsernamePasswordAuthenticationFilter(redisService);	</span><br><span class="line">    myUsernamePasswordAuthenticationFilter.setAuthenticationFailureHandler(<span class="keyword">new</span> MyUrlAuthenticationFailureHandler());	</span><br><span class="line">    myUsernamePasswordAuthenticationFilter.setAuthenticationSuccessHandler(<span class="keyword">new</span> MyAuthenticationSuccessHandler());	</span><br><span class="line">    myUsernamePasswordAuthenticationFilter.setFilterProcessesUrl(<span class="string">&quot;/sign_in&quot;</span>);	</span><br><span class="line">    myUsernamePasswordAuthenticationFilter.setAuthenticationManager(getAuthenticationManager());	</span><br><span class="line">    <span class="keyword">return</span> myUsernamePasswordAuthenticationFilter;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;添加到配置</span><br><span class="line">http.addFilterAt(getAuthenticationFilter(),UsernamePasswordAuthenticationFilter.class);</span><br></pre></td></tr></table></figure>
-
-<h3 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h3><p>&emsp;&emsp;对于Security的扩展配置关键在于<code>configure(HttpSecurityhttp)</code>方法；扩展认证方式可以自定义<code>authenticationManager</code>并加入自己验证器，在验证器中抛出异常不会终止验证流程；扩展鉴权方式可以自定义<code>accessDecisionManager</code>然后添加自己的投票器并绑定到对应的url（url 匹配方式为 ant）上，投票器<code>vote(Authenticationauthentication</code>,<code>FilterInvocationfi</code>,<code>Collection&lt;ConfigAttribute&gt;attributes) </code>方法返回值为三种：-1 0 1，分别表示反对弃权赞成。</p>
-<p>&emsp;&emsp;对于token认证的校验方式，可以暴露一个获取的接口，或者重写<code>UsernamePasswordAuthenticationFilter</code>过滤器和扩展登录成功处理器来获取token，然后在<code>LogoutFilter</code>之后添加一个自定义过滤器，用于校验和填充<code>SecurityContextHolder</code>。</p>
-<p>&emsp;&emsp;另外，Security的处理器大部分都是重定向的，我们的项目如果是前后端分离的话，我们希望无论什么情况都返回json,那么就需要重写各个处理器了。</p>
- 
-      <!-- reward -->
-      
-    </div>
-    
 
     <!-- copyright -->
     
@@ -319,7 +237,7 @@
     <ul>
       <li>
         Copyrights &copy;
-        2015-2021
+        2021
         <i class="ri-heart-fill heart_icon"></i> YeQiu
       </li>
     </ul>
@@ -399,22 +317,6 @@
       <a class="nav-item-link" href="/tags">标签</a>
     </li>
     
-    <li class="nav-item">
-      <a class="nav-item-link" href="/tags/%E6%97%85%E8%A1%8C/">旅行</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" target="_blank" rel="noopener" href="http://shenyu-vip.lofter.com">摄影</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/friends">友链</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/2019/about">关于我</a>
-    </li>
-    
   </ul>
 </nav>
 <nav class="navbar navbar-bottom">
@@ -451,19 +353,9 @@
 <!-- #reward -->
 <div id="reward">
   <span class="close"><i class="ri-close-line"></i></span>
-  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <p class="reward-p"><i class="ri-cup-line"></i></p>
   <div class="reward-box">
     
-    <div class="reward-item">
-      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/alipay.jpg">
-      <span class="reward-type">支付宝</span>
-    </div>
-    
-    
-    <div class="reward-item">
-      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/wechat.jpg">
-      <span class="reward-type">微信</span>
-    </div>
     
   </div>
 </div>
@@ -606,6 +498,10 @@
 
 <!-- ClickBoom2 -->
 
+
+<script src="/js/clickBoom2.js"></script>
+
+
 <!-- CodeCopy -->
 
 
@@ -668,6 +564,10 @@
 
 
 <!-- CanvasBackground -->
+
+
+<script src="/js/dz.js"></script>
+
 
 
     
