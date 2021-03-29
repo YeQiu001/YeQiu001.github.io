@@ -84,7 +84,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">6 分钟</span>
+            <span class="post-count">7 分钟</span>
         </span>
     </span>
 </div>
@@ -115,7 +115,12 @@
 <p>&emsp;&emsp;在这个类的注释可以知道，这个自动配置类时记忆了一个默认的用户，在定义AuthenticationManager、AuthenticationProvider、UserDetailsService中任一类时，这个自动配置类会被禁用。<br>&emsp;&emsp;我们可以看到在这个类的getOrDeducePassword(SecurityProperties.User user, PasswordEncoder encoder)方法中通过日志的方式打印了密码的信息，那我们在看看之前截截图中打印的控制台信息，第二处标红就是上述类方法中打印的密码信息，此时我们已经知道了Spring Security在配置用户名和密码的情况下默认的用户密码为user和控制台打印出的随机码。<br>&emsp;&emsp;此时我们再访问<a target="_blank" rel="noopener" href="http://localhost:8080/">http://localhost:8080/</a> ,输入默认的用户名和密码，此时点击Sign in按钮后，页面跳转依然显示404，其实Spring Security已经验证了信息，这个404是我们未定义访问的接口返回的信息或需要跳转的页面。<br>&emsp;&emsp;我们可以定义一下访问接口的，在这之前我们先通过配置文件修改一下我们当前的用户名和密码，在配置文件中增加如下配置：</p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">security:</span></span><br><span class="line">    <span class="attr">user:</span></span><br><span class="line">      <span class="attr">name:</span> <span class="string">zzjiang</span></span><br><span class="line">      <span class="attr">password:</span> <span class="number">12345678</span></span><br></pre></td></tr></table></figure>
 
-<p>&emsp;&emsp;重启服务，发现此前控制台打印的UserDetailsServiceAutoConfiguration信息和随机密码在控制台已经不打印了，此时我们在登录页输入我们配置的用户名和密码，发现效果和之前相同，但因为我们没有配置接口信息，无法确认验证是否进行及配置是否生效，</p>
+<p>&emsp;&emsp;重启服务，发现此前控制台打印的UserDetailsServiceAutoConfiguration信息和随机密码在控制台已经不打印了，此时我们在登录页输入我们配置的用户名和密码，发现效果和之前相同，但因为我们没有配置接口信息，无法确认验证是否进行及配置是否生效。<br>&emsp;&emsp;我们在服务中建一个测试的Controller</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.yeqiu.demo.security.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> zzjiang</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@GetMapping(&quot;&quot;)</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
  
       <!-- reward -->
       
