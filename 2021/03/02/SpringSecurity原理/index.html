@@ -38,9 +38,9 @@
     
   
   <!-- 样式表文件 -->
-  <link rel="stylesheet" id="kratos-css" href="/blog/css/kratosr.min.css" type="text/css" media="all">
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" type="text/css" media="all">
   
-    <link rel="stylesheet" id="highlight-css" href="/blog/css/highlight/night-eighties.min.css" type="text/css" media="all">
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-eighties.min.css" type="text/css" media="all">
   
   
   <link rel="stylesheet" id="fontawe-css" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" type="text/css" media="all">
@@ -53,7 +53,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
   
   
-    <link rel="stylesheet" id="darkmode-css" href="/blog/css/kr-dark.min.css" type="text/css" media="all">
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-dark.min.css" type="text/css" media="all">
   
   <!-- 不得不预先加载的一些JS文件 -->
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
@@ -76,11 +76,11 @@
                             <ul id="kratos-primary-menu" class="sf-menu">
                                 
                                     
-                                        <li><a href="/blog/"><i class="fa fa-home"></i>首页</a></li>
+                                        <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
                                     
                                 
                                     
-                                        <li><a href="/blog/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                        <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
                                     
                                 
                                     
@@ -112,7 +112,7 @@
             <!-- <div class="kratos-overlay"></div> -->
             <div class="kratos-cover kratos-cover-2 text-center">
                 <div class="desc desc2 animate-box">
-                    <a href="/blog/">
+                    <a href="/">
                         <h2>YeQiu Blog</h2> <br />
                         <span>落暮寒鸦添秋意,小桥流水任寂寥</span>
                     </a>
@@ -153,7 +153,7 @@
                 <hr />
                 <h1 id="SpringSecurity原理"><a href="#SpringSecurity原理" class="headerlink" title="SpringSecurity原理"></a><strong>SpringSecurity原理</strong></h1><h3 id="一、SpringSecurity过滤器链"><a href="#一、SpringSecurity过滤器链" class="headerlink" title="一、SpringSecurity过滤器链"></a>一、SpringSecurity过滤器链</h3><ol>
 <li><code>SpringSecurity</code>的底层实现是一条过滤器链，也就是说用户进来后，由这些过滤器链判断是否有请求的权限，如果有权限则放过；没有权限的化就会抛出异常，重定向到要跳转的页面</li>
-<li><code>SpringSecurity</code> 采用的是责任链的设计模式，它有一条很长的过滤器链。现在对这条过滤器链的各个进行说明:<br>&emsp;&emsp;2.1 <code>WebAsyncManagerIntegrationFilter</code>：将<code>Security</code>上下文与<code>Spring Web</code>中用于处理异步请求映射的<code>WebAsyncManager</code>进行集成;<br>&emsp;&emsp;2.2 <code>SecurityContextPersistenceFilter</code>：在每次请求处理之前将该请求相关的安全上下文信息加载到<code>SecurityContextHolder</code>中，然后在该次请求处理完成之后，将<code>SecurityContextHolder</code>中关于这次请求的信息存储到一个”仓储”中，然后将<code>SecurityContextHolder</code>中的信息清除，例如：在<code>Session</code>中维护一个用户的安全信息就是这个过滤器处理的;<br>&emsp;&emsp;2.3<code>HeaderWriterFilter</code>：用于将头信息加入到响应中;<br>&emsp;&emsp;2.4 <code>CsrfFilter</code>：用于处理跨站请求伪造;<br>&emsp;&emsp;2.5 <code>LogoutFilter</code>：用于处理退出登录;<br>&emsp;&emsp;2.6 <code>UsernamePasswordAuthenticationFilter</code>：用于处理基于表单的登录请求，从表单中获取用户名和密码。默认情况下处理来自/login的请求。从表单中获取用户名和密码时，默认使用的<code>name</code>的值为<code>username</code>和<code>password</code>，这两个值可以通过设置这个过滤器的<code>usernameParameter</code>和<code>passwordParameter</code>两个参数的值进行修改。<br>&emsp;&emsp;2.7 <code>DefaultLoginPageGeneratingFilter</code>：如果没有配置登录页面，那系统初始化时就会配置这个过滤器，并且在需要进行登陆时生成一个登录表单页面。<br>&emsp;&emsp;2.8 <code>BasicAuthenticationFilter</code>：检测和处理<code>http basic</code>认证。<br>&emsp;&emsp;2.9 <code>RequestCacheAwareFilter</code>：用来处理请求的缓存。<br>&emsp;&emsp;2.10 <code>SecurityContextHolderAwareRequestFilter</code>：主要包装请求的<code>Requeest</code>。<br>&emsp;&emsp;2.11 <code>AnonymousAuthenticationFilter</code>： 检测<code>SecurityContextHolder</code>中是否存在<code>Authentication</code>对象，如果不存在为其提供一个匿名<code>Authentication</code>。<br>&emsp;&emsp;2.12 <code>SessionManagementFilter</code>：管理<code>session</code>的过滤器。<br>&emsp;&emsp;2.13 <code>ExceptionTranslationFilter</code>：处理<code>AccessDeniedException</code>和<code>AuthenticationException</code>异常。<br>&emsp;&emsp;2.14 <code>FilterSecurityInterceptor</code>：过滤器链的出口。<br>&emsp;&emsp;2.15 <code>RememberMeAuthenticationFilter</code>：当用户没有登录而直接访问资源时，从<code>cookie</code>中找出用户的信息，如果<code>Spring Security</code>能够识别出用户提供的<code>remember me cookie</code>,用户将不必填写用户名和密码，而是直接登录进入系统，该过滤器默认不开启。<h3 id="二、SpringSecurity流程图-如链接中流程图"><a href="#二、SpringSecurity流程图-如链接中流程图" class="headerlink" title="二、SpringSecurity流程图(如链接中流程图)"></a>二、SpringSecurity流程图(如链接中流程图)</h3>&emsp;&emsp;<a target="_blank" rel="noopener" href="http://note.youdao.com/noteshare?id=93708e50e2955cdd334c2400412c3ec0&sub=32EEFBB9B8CC4507B76C00F14EBD926B/">SpringSecurity流程图</a><img src="/blog/2021/03/02/SpringSecurity%E5%8E%9F%E7%90%86/SpringSecurity%E5%8E%9F%E7%90%86.png" class=""></li>
+<li><code>SpringSecurity</code> 采用的是责任链的设计模式，它有一条很长的过滤器链。现在对这条过滤器链的各个进行说明:<br>&emsp;&emsp;2.1 <code>WebAsyncManagerIntegrationFilter</code>：将<code>Security</code>上下文与<code>Spring Web</code>中用于处理异步请求映射的<code>WebAsyncManager</code>进行集成;<br>&emsp;&emsp;2.2 <code>SecurityContextPersistenceFilter</code>：在每次请求处理之前将该请求相关的安全上下文信息加载到<code>SecurityContextHolder</code>中，然后在该次请求处理完成之后，将<code>SecurityContextHolder</code>中关于这次请求的信息存储到一个”仓储”中，然后将<code>SecurityContextHolder</code>中的信息清除，例如：在<code>Session</code>中维护一个用户的安全信息就是这个过滤器处理的;<br>&emsp;&emsp;2.3<code>HeaderWriterFilter</code>：用于将头信息加入到响应中;<br>&emsp;&emsp;2.4 <code>CsrfFilter</code>：用于处理跨站请求伪造;<br>&emsp;&emsp;2.5 <code>LogoutFilter</code>：用于处理退出登录;<br>&emsp;&emsp;2.6 <code>UsernamePasswordAuthenticationFilter</code>：用于处理基于表单的登录请求，从表单中获取用户名和密码。默认情况下处理来自/login的请求。从表单中获取用户名和密码时，默认使用的<code>name</code>的值为<code>username</code>和<code>password</code>，这两个值可以通过设置这个过滤器的<code>usernameParameter</code>和<code>passwordParameter</code>两个参数的值进行修改。<br>&emsp;&emsp;2.7 <code>DefaultLoginPageGeneratingFilter</code>：如果没有配置登录页面，那系统初始化时就会配置这个过滤器，并且在需要进行登陆时生成一个登录表单页面。<br>&emsp;&emsp;2.8 <code>BasicAuthenticationFilter</code>：检测和处理<code>http basic</code>认证。<br>&emsp;&emsp;2.9 <code>RequestCacheAwareFilter</code>：用来处理请求的缓存。<br>&emsp;&emsp;2.10 <code>SecurityContextHolderAwareRequestFilter</code>：主要包装请求的<code>Requeest</code>。<br>&emsp;&emsp;2.11 <code>AnonymousAuthenticationFilter</code>： 检测<code>SecurityContextHolder</code>中是否存在<code>Authentication</code>对象，如果不存在为其提供一个匿名<code>Authentication</code>。<br>&emsp;&emsp;2.12 <code>SessionManagementFilter</code>：管理<code>session</code>的过滤器。<br>&emsp;&emsp;2.13 <code>ExceptionTranslationFilter</code>：处理<code>AccessDeniedException</code>和<code>AuthenticationException</code>异常。<br>&emsp;&emsp;2.14 <code>FilterSecurityInterceptor</code>：过滤器链的出口。<br>&emsp;&emsp;2.15 <code>RememberMeAuthenticationFilter</code>：当用户没有登录而直接访问资源时，从<code>cookie</code>中找出用户的信息，如果<code>Spring Security</code>能够识别出用户提供的<code>remember me cookie</code>,用户将不必填写用户名和密码，而是直接登录进入系统，该过滤器默认不开启。<h3 id="二、SpringSecurity流程图-如链接中流程图"><a href="#二、SpringSecurity流程图-如链接中流程图" class="headerlink" title="二、SpringSecurity流程图(如链接中流程图)"></a>二、SpringSecurity流程图(如链接中流程图)</h3>&emsp;&emsp;<a target="_blank" rel="noopener" href="http://note.youdao.com/noteshare?id=93708e50e2955cdd334c2400412c3ec0&sub=32EEFBB9B8CC4507B76C00F14EBD926B/">SpringSecurity流程图</a><img src="/2021/03/02/SpringSecurity%E5%8E%9F%E7%90%86/SpringSecurity%E5%8E%9F%E7%90%86.png" class=""></li>
 </ol>
 <h3 id="三、SpringSecurity流程说明"><a href="#三、SpringSecurity流程说明" class="headerlink" title="三、SpringSecurity流程说明"></a>三、SpringSecurity流程说明</h3><ol>
 <li>客户端发起请求，进入过滤器链</li>
@@ -286,7 +286,7 @@ SpringSecurity的底层实现是一条过滤器链，也就是说用户进来后
                 <div class="footer-tag clearfix">
                     <div class="pull-left">
                     <i class="fa fa-tags"></i>
-                        <a class="tag-none-link" href="/blog/tags/spring-security/" rel="tag">spring security</a>
+                        <a class="tag-none-link" href="/tags/spring-security/" rel="tag">spring security</a>
                     </div>
                     <div class="pull-date">
                     <span>最后编辑：2021-03-25</span>
@@ -299,7 +299,7 @@ SpringSecurity的底层实现是一条过滤器链，也就是说用户进来后
                 
                 
                 <div class="nav-next clearfix">
-                    <a title=" Spring Security Demo 学习" href="/blog/2021/03/25/SpringSecurityDemoStudy/">下一篇 &gt;</a>
+                    <a title=" Spring Security Demo 学习" href="/2021/03/25/SpringSecurityDemoStudy/">下一篇 &gt;</a>
                 </div>
                 
             </nav>
@@ -332,7 +332,7 @@ SpringSecurity的底层实现是一条过滤器链，也就是说用户进来后
                 
   <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
     <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Blog/">Blog</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Blog/Study/">Study</a><span class="category-list-count">1</span></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Blog/">Blog</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Blog/Study/">Study</a><span class="category-list-count">1</span></li></ul></li></ul>
   </aside>
 
 
@@ -341,7 +341,7 @@ SpringSecurity的底层实现是一条过滤器链，也就是说用户进来后
   <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
     <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
       <div class="tag-clouds">
-        <a href="/blog/tags/Spring-Boot/" style="font-size: 0.6em;">Spring Boot</a> <a href="/blog/tags/Spring-Security/" style="font-size: 0.6em;">Spring Security</a> <a href="/blog/tags/demo/" style="font-size: 0.6em;">demo</a> <a href="/blog/tags/spring-security/" style="font-size: 0.6em;">spring security</a> <a href="/blog/tags/target/" style="font-size: 0.6em;">target</a>
+        <a href="/tags/Spring-Boot/" style="font-size: 0.6em;">Spring Boot</a> <a href="/tags/Spring-Security/" style="font-size: 0.6em;">Spring Security</a> <a href="/tags/demo/" style="font-size: 0.6em;">demo</a> <a href="/tags/spring-security/" style="font-size: 0.6em;">spring security</a> <a href="/tags/target/" style="font-size: 0.6em;">target</a>
       </div>
   </aside>
 
@@ -355,19 +355,19 @@ SpringSecurity的底层实现是一条过滤器链，也就是说用户进来后
         
           
           
-            <a class="list-group-item" href="/blog/2021/03/29/objective/"><i class="fa  fa-book"></i> objective</a>
+            <a class="list-group-item" href="/2021/03/29/objective/"><i class="fa  fa-book"></i> objective</a>
             
           
         
           
           
-            <a class="list-group-item" href="/blog/2021/03/25/SpringSecurityDemoStudy/"><i class="fa  fa-book"></i> Spring Security Demo 学习</a>
+            <a class="list-group-item" href="/2021/03/25/SpringSecurityDemoStudy/"><i class="fa  fa-book"></i> Spring Security Demo 学习</a>
             
           
         
           
           
-            <a class="list-group-item" href="/blog/2021/03/02/SpringSecurity%E5%8E%9F%E7%90%86/"><i class="fa  fa-book"></i> SpringSecurity原理</a>
+            <a class="list-group-item" href="/2021/03/02/SpringSecurity%E5%8E%9F%E7%90%86/"><i class="fa  fa-book"></i> SpringSecurity原理</a>
             
           
         
@@ -388,7 +388,7 @@ SpringSecurity的底层实现是一条过滤器链，也就是说用户进来后
             <div class="tool">
                 
                     <div class="box search-box">
-                        <a href="/blog/search/">
+                        <a href="/search/">
                             <span class="fa fa-search"></span>
                         </a>
                     </div>
@@ -448,7 +448,7 @@ SpringSecurity的底层实现是一条过滤器链，也就是说用户进来后
 <script defer src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
 <script>const notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));</script>
 
-<script async src="/blog/js/candy.min.js"></script>
+<script async src="/js/candy.min.js"></script>
 
     <script defer src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
     
@@ -467,11 +467,11 @@ SpringSecurity的底层实现是一条过滤器链，也就是说用户进来后
     <script defer src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
 
 <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
-<script defer src="/blog/js/kratosr.min.js"></script>
-<script defer src="/blog/js/pjax.min.js"></script>
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
 
 
-    <script defer src="/blog/js/kr-dark.min.js"></script>
+    <script defer src="/js/kr-dark.min.js"></script>
 
 
 
