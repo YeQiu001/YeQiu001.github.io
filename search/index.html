@@ -18,7 +18,7 @@
   <meta name="description" content="叶湫的博客">
 <meta property="og:type" content="website">
 <meta property="og:title" content="YeQiu Blog">
-<meta property="og:url" content="https://yeqiu001.github.io/categories/Spring/Annotation/index.html">
+<meta property="og:url" content="https://yeqiu001.github.io/search/index.html">
 <meta property="og:site_name" content="YeQiu Blog">
 <meta property="og:description" content="叶湫的博客">
 <meta property="og:locale" content="zh_CN">
@@ -123,72 +123,36 @@
                     
 
         <section class="col-md-8">
-    
-        
-        
-            <article class="kratos-hentry clearfix">
-                <div class="kratos-entry-border-new clearfix">
-                    
-                    <div class="kratos-entry-thumb-new">
-                        <a href="/2021/03/31/%E4%BA%8B%E5%8A%A1%E6%B3%A8%E8%A7%A3-Transactional%E5%A4%B1%E6%95%88%E7%9A%843%E7%A7%8D%E5%9C%BA%E6%99%AF%E5%8F%8A%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">
-                            
-                                <img class="kratos-entry-thumb-new-img">
-                            
-                        </a>
-                    </div>
-                    <div class="kratos-post-inner-new">
-                        <header class="kratos-entry-header-new">
-                                <a class="label-link" href="/categories/Spring/">Spring</a> <a class="label-link" href="/categories/Spring/Annotation/">Annotation</a> <a class="label-link" href="/categories/Spring/Annotation/Transactional/">Transactional</a>
-                            <h2 class="kratos-entry-title-new"><a href="/2021/03/31/%E4%BA%8B%E5%8A%A1%E6%B3%A8%E8%A7%A3-Transactional%E5%A4%B1%E6%95%88%E7%9A%843%E7%A7%8D%E5%9C%BA%E6%99%AF%E5%8F%8A%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">事务注解@Transactional失效的3种场景及解决办法</a>
-                        </header>
-                        <div class="kratos-entry-content-new">
-                            <p>
-                                
-                                    Transactional失效场景介绍
-                                
-                            </p>
-                        </div>
-                    </div>
-                    <footer class="kratos-post-meta-new">
-                        <span class="pull-left">
-                            <a>
-                                <i class="fa fa-calendar"></i>
-                                2021-03-31
-                            </a>
-                            <a>
-                                
-                                    <i class="fa fa-tags"></i>
-                                    <a class="tag-none-link" href="/tags/Annotation/" rel="tag">Annotation</a>, <a class="tag-none-link" href="/tags/Spring/" rel="tag">Spring</a>
-                                
-                            </a>
-                            
-                                <!-- 当前仅支持valine/waline自带的统计功能 -->
-                                
-                            
-                            
-                                <!-- 当前仅支持waline自带的统计功能 -->
-                                
-                            
-                        </span>
-                        <span class="pull-right">
-                            <a class="read-more" href="/2021/03/31/%E4%BA%8B%E5%8A%A1%E6%B3%A8%E8%A7%A3-Transactional%E5%A4%B1%E6%95%88%E7%9A%843%E7%A7%8D%E5%9C%BA%E6%99%AF%E5%8F%8A%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
-                        </span>
-                    </footer>
-                </div>
-            </article>
-        
-    
-    
-    
-</section>
-
-
-    <div class="hidden">
-        <!-- 加载文章阅读对应的统计功能，评论自带的那种 -->
-        
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <div class="kratos-post-content">
+            <h2 class="title-h2 text-center">搜索</h2>
+            <form class="input-group" onsubmit="return inpSearch();">
+                <input class="form-input input-lg" id="search-input" maxlength="80" name="s" placeholder="有什么想找找看的呢o(*￣▽￣*)ブ" required type="search">
+                <button class="btn btn-primary" type="submit">找一找~</button>
+            </form>
+        </div>
     </div>
 
+    <div class="alert alert-info" id="kr-search-notice">
+        这里是 YeQiu Blog 的搜索引擎~
+    </div>
 
+    <div id="result-posts">
+        <div class="kratos-hentry kratos-post-inner clearfix">
+            <div class="kratos-post-content">
+                <p>搜索多个关键词时请用空格分割，例如「demo Spring Security Spring Boot」这样；</p>
+                <p>您也可以使用这些标签碰碰运气哦~</p>
+                <p class="search-demo-tags">
+                    <a href="/tags/demo/" style="font-size: 18px; color: #b2b7be">demo</a> <a href="/tags/Spring-Security/" style="font-size: 18px; color: #b2b7be">Spring Security</a> <a href="/tags/Spring-Boot/" style="font-size: 18px; color: #b2b7be">Spring Boot</a> <a href="/tags/spring-security/" style="font-size: 18px; color: #b2b7be">spring security</a> <a href="/tags/target/" style="font-size: 18px; color: #b2b7be">target</a> <a href="/tags/Spring/" style="font-size: 18px; color: #b2b7be">Spring</a> <a href="/tags/Annotation/" style="font-size: 18px; color: #b2b7be">Annotation</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<script>var searchDataFile = "/search.json";</script>
+<script defer src="/js/local-search.min.js"></script>
 
                 
             
