@@ -24,7 +24,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://yeqiu001.github.io/images/favicon.ico">
 <meta property="article:published_time" content="2021-04-02T03:13:19.000Z">
-<meta property="article:modified_time" content="2021-04-02T03:27:39.343Z">
+<meta property="article:modified_time" content="2021-04-02T03:42:00.391Z">
 <meta property="article:author" content="YeQiu">
 <meta property="article:tag" content="Sql">
 <meta property="article:tag" content="Index">
@@ -139,7 +139,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            202
+                            439
                         
                         字
                     </li>
@@ -148,7 +148,7 @@
             </header>
             <div class="kratos-post-content">
                 <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                    本文最后编辑于 <time datetime="1617334059343"></time> 前，其中的内容可能需要更新。
+                    本文最后编辑于 <time datetime="1617334920391"></time> 前，其中的内容可能需要更新。
                 </div>
                 
                 <hr />
@@ -160,6 +160,10 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from test where id=c_id;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;&emsp;这种情况会被认为还不如走全表扫描。</p>
+<h4 id="存在NULL值条件"><a href="#存在NULL值条件" class="headerlink" title="存在NULL值条件"></a><strong>存在NULL值条件</strong></h4><p>&emsp;&emsp;我们在设计数据库表时，应该尽力避免NULL值出现，如果非要不可避免的要出现NULL值，也要给一个DEFAULT值，数值型可以给0、-1之类的， 字符串有时候给空串有问题，就给一个空格或其他。</p>
+<p>&emsp;&emsp;如果索引列是可空的，很可能是不会给其建索引的，索引值是少于表的<code>count(*)</code>值的，所以这种情况下，执行计划自然就去扫描全表了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from test where id is not <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
+
 
             </div>
             
