@@ -24,7 +24,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://yeqiu001.github.io/images/favicon.ico">
 <meta property="article:published_time" content="2021-04-01T09:15:03.000Z">
-<meta property="article:modified_time" content="2021-04-01T09:32:13.327Z">
+<meta property="article:modified_time" content="2021-04-02T00:57:41.318Z">
 <meta property="article:author" content="YeQiu">
 <meta property="article:tag" content="SpringCloud">
 <meta property="article:tag" content="Ribbon">
@@ -139,7 +139,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            549
+                            ~2.51K
                         
                         字
                     </li>
@@ -148,7 +148,7 @@
             </header>
             <div class="kratos-post-content">
                 <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                    本文最后编辑于 <time datetime="1617269533327"></time> 前，其中的内容可能需要更新。
+                    本文最后编辑于 <time datetime="1617325061318"></time> 前，其中的内容可能需要更新。
                 </div>
                 
                 <hr />
@@ -172,9 +172,31 @@
 <li><p>加权（Weighted）</p>
 <h3 id="ILoadBalance-负载均衡器"><a href="#ILoadBalance-负载均衡器" class="headerlink" title="ILoadBalance 负载均衡器"></a><strong>ILoadBalance 负载均衡器</strong></h3></li>
 </ul>
-<p>&emsp;&emsp;ribbon是一个为客户端提供负载均衡功能的服务，它内部提供了一个叫做ILoadBalance的接口代表负载均衡器的操作，比如有添加服务器操作、选择服务器操作、获取所有的服务器列表、获取可用的服务器列表等等。</p>
-<p>&emsp;&emsp;ILoadBalance的继承关系如下：</p>
+<ol>
+<li>&emsp;&emsp;<code>ribbon</code>是一个为客户端提供负载均衡功能的服务，它内部提供了一个叫做<code>ILoadBalance</code>的接口代表负载均衡器的操作，比如有添加服务器操作、选择服务器操作、获取所有的服务器列表、获取可用的服务器列表等等。</li>
+</ol>
+<p>&emsp;&emsp;<code>ILoadBalance</code>的继承关系如下：</p>
 <img src="/2021/04/01/Ribbon%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E5%8F%8A%E5%8E%9F%E7%90%86/ribbon1.png" class="">
+
+<p>&emsp;&emsp;负载均衡器是从EurekaClient（EurekaClient的实现类为DiscoveryClient）获取服务信息，根据IRule去路由，并且根据IPing判断服务的可用性。</p>
+<p>&emsp;&emsp;负载均衡器多久一次去获取一次从Eureka Client获取注册信息呢？在BaseLoadBalancer类下，BaseLoadBalancer的构造函数，该构造函数开启了一个PingTask任务setupPingTask();，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">BaseLoadBalancer</span><span class="params">(String name, IRule rule, LoadBalancerStats stats,</span></span></span><br><span class="line"><span class="function"><span class="params">        IPing ping, IPingStrategy pingStrategy)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (logger.isDebugEnabled()) &#123;</span><br><span class="line">        logger.debug(<span class="string">&quot;LoadBalancer:  initialized&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">    <span class="keyword">this</span>.ping = ping;</span><br><span class="line">    <span class="keyword">this</span>.pingStrategy = pingStrategy;</span><br><span class="line">    setRule(rule);</span><br><span class="line">    setupPingTask();</span><br><span class="line">    lbStats = stats;</span><br><span class="line">    init();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;setupPingTask()的具体代码逻辑，它开启了ShutdownEnabledTimer执行PingTask任务，在默认情况下pingIntervalSeconds为10，即每10秒钟，向EurekaClient发送一次”ping”。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">setupPingTask</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (canSkipPing()) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (lbTimer != <span class="keyword">null</span>) &#123;</span><br><span class="line">            lbTimer.cancel();</span><br><span class="line">        &#125;</span><br><span class="line">        lbTimer = <span class="keyword">new</span> ShutdownEnabledTimer(<span class="string">&quot;NFLoadBalancer-PingTimer-&quot;</span> + name,</span><br><span class="line">                <span class="keyword">true</span>);</span><br><span class="line">        lbTimer.schedule(<span class="keyword">new</span> PingTask(), <span class="number">0</span>, pingIntervalSeconds * <span class="number">1000</span>);</span><br><span class="line">        forceQuickPing();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;PingTask源码，即new一个Pinger对象，并执行runPinger()方法。</p>
+<p>&emsp;&emsp;查看Pinger的runPinger()方法，最终根据 pingerStrategy.pingServers(ping, allServers)来获取服务的可用性，如果该返回结果，如之前相同，则不去向EurekaClient获取注册列表，如果不同则通知ServerStatusChangeListener或者changeListeners发生了改变，进行更新或者重新拉取。</p>
+<p><strong>完整过程是：</strong></p>
+<p>&emsp;&emsp;LoadBalancerClient（RibbonLoadBalancerClient是实现类）在初始化的时候（execute方法），会通过ILoadBalance（BaseLoadBalancer是实现类）向Eureka注册中心获取服务注册列表，并且每10s一次向EurekaClient发送“ping”，来判断服务的可用性，如果服务的可用性发生了改变或者服务数量和之前的不一致，则从注册中心更新或者重新拉取。LoadBalancerClient有了这些服务注册列表，就可以根据具体的IRule来进行负载均衡。</p>
+<p><strong>IRule 路由</strong></p>
+<p>&emsp;&emsp;IRule接口代表负载均衡策略：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IRule</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Server <span class="title">choose</span><span class="params">(Object key)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setLoadBalancer</span><span class="params">(ILoadBalancer lb)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ILoadBalancer <span class="title">getLoadBalancer</span><span class="params">()</span></span>;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;IRule接口的实现类有以下几种：</p>
+<img src="/2021/04/01/Ribbon%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E5%8F%8A%E5%8E%9F%E7%90%86/ribbon2.png" class="">
+
+<img src="/2021/04/01/Ribbon%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5%E5%8F%8A%E5%8E%9F%E7%90%86/ribbon3.png" class="">
             </div>
             
                 <div class="kratos-copyright text-center clearfix">
@@ -266,7 +288,7 @@
                         <a class="tag-none-link" href="/tags/Ribbon/" rel="tag">Ribbon</a>, <a class="tag-none-link" href="/tags/SpringCloud/" rel="tag">SpringCloud</a>
                     </div>
                     <div class="pull-date">
-                    <span>最后编辑：2021-04-01</span>
+                    <span>最后编辑：2021-04-02</span>
                     </div>
                 </div>
             </footer>
