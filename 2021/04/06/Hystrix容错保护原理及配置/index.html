@@ -24,7 +24,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://yeqiu001.github.io/images/favicon.ico">
 <meta property="article:published_time" content="2021-04-06T06:50:04.000Z">
-<meta property="article:modified_time" content="2021-04-06T07:47:20.754Z">
+<meta property="article:modified_time" content="2021-04-06T07:52:32.750Z">
 <meta property="article:author" content="YeQiu">
 <meta property="article:tag" content="SpringCloud">
 <meta property="article:tag" content="Hystrix">
@@ -139,7 +139,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            ~9.20K
+                            ~9.85K
                         
                         字
                     </li>
@@ -148,7 +148,7 @@
             </header>
             <div class="kratos-post-content">
                 <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                    本文最后编辑于 <time datetime="1617695240754"></time> 前，其中的内容可能需要更新。
+                    本文最后编辑于 <time datetime="1617695552750"></time> 前，其中的内容可能需要更新。
                 </div>
                 
                 <hr />
@@ -210,6 +210,19 @@
 
 <p>&emsp;&emsp;使用请求合并：</p>
 <img src="/2021/04/06/Hystrix%E5%AE%B9%E9%94%99%E4%BF%9D%E6%8A%A4%E5%8E%9F%E7%90%86%E5%8F%8A%E9%85%8D%E7%BD%AE/Hystrix3.jpg" class="">
+
+<p><strong>什么情况下使用请求合并：</strong></p>
+<p>&emsp;&emsp;在微服务架构中，我们将一个项目拆分成很多个独立的模块，这些独立的模块通过远程调用来互相配合工作，但是，在高并发情况下，通信次数的增加会导致总的通信时间增加，同时，线程池的资源也是有限的，高并发环境会导致有大量的线程处于等待状态，进而导致响应延迟，为了解决这些问题，我们需要来了解Hystrix的请求合并。</p>
+<blockquote>
+<p>通常来说，服务链条超出4个，不推荐使用请求合并。因为请求合并有等待时间。</p>
+</blockquote>
+<p><strong>请求合并的缺点：</strong></p>
+<p>&emsp;&emsp;设置请求合并之后，本来一个请求可能5ms就搞定了，但是现在必须再等10ms看看还有没有其他的请求一起的，这样一个请求的耗时就从5ms增加到15ms了，不过，如果我们要发起的命令本身就是一个高延迟的命令，那么这个时候就可以使用请求合并了，因为这个时候时间窗的时间消耗就显得微不足道了，另外高并发也是请求合并的一个非常重要的场景。</p>
+<p>&emsp;&emsp;引入依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- hystrix依赖， 处理服务灾难雪崩效应的。 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-hystrix<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;启动器</p>
+
             </div>
             
                 <div class="kratos-copyright text-center clearfix">
