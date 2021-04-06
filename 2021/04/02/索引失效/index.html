@@ -24,7 +24,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://yeqiu001.github.io/images/favicon.ico">
 <meta property="article:published_time" content="2021-04-02T03:13:19.000Z">
-<meta property="article:modified_time" content="2021-04-02T03:42:00.391Z">
+<meta property="article:modified_time" content="2021-04-06T03:30:33.281Z">
 <meta property="article:author" content="YeQiu">
 <meta property="article:tag" content="Sql">
 <meta property="article:tag" content="Index">
@@ -139,7 +139,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            439
+                            ~3.37K
                         
                         字
                     </li>
@@ -148,7 +148,7 @@
             </header>
             <div class="kratos-post-content">
                 <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                    本文最后编辑于 <time datetime="1617334920391"></time> 前，其中的内容可能需要更新。
+                    本文最后编辑于 <time datetime="1617679833281"></time> 前，其中的内容可能需要更新。
                 </div>
                 
                 <hr />
@@ -157,12 +157,72 @@
 </blockquote>
 <p>&emsp;&emsp;虽然你这列上建了索引，查询条件也是索引列，但最终执行计划没有走它的索引。下面是引起这种问题的几个关键点。</p>
 <h4 id="列与列对比"><a href="#列与列对比" class="headerlink" title="列与列对比"></a><strong>列与列对比</strong></h4><p>&emsp;&emsp;某个表中，有两列（id和c_id）都建了单独索引，下面这种查询条件不会走索引。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from test where id=c_id;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> id<span class="operator">=</span>c_id;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;&emsp;这种情况会被认为还不如走全表扫描。</p>
 <h4 id="存在NULL值条件"><a href="#存在NULL值条件" class="headerlink" title="存在NULL值条件"></a><strong>存在NULL值条件</strong></h4><p>&emsp;&emsp;我们在设计数据库表时，应该尽力避免NULL值出现，如果非要不可避免的要出现NULL值，也要给一个DEFAULT值，数值型可以给0、-1之类的， 字符串有时候给空串有问题，就给一个空格或其他。</p>
 <p>&emsp;&emsp;如果索引列是可空的，很可能是不会给其建索引的，索引值是少于表的<code>count(*)</code>值的，所以这种情况下，执行计划自然就去扫描全表了。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from test where id is not <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> id <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="NOT条件"><a href="#NOT条件" class="headerlink" title="NOT条件"></a><strong>NOT条件</strong></h4><p>&emsp;&emsp;我们知道建立索引时，给每一个索引列建立一个条目，如果查询条件为等值或范围查询时，索引可以根据查询条件去找对应的条目。</p>
+<p>&emsp;&emsp;反过来当查询条件为非时，索引定位就困难了，执行计划此时可能更倾向于全表扫描，这类的查询条件有：<code>&lt;&gt;</code>、<code>NOT</code>、<code>in</code>、<code>not exists</code></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> id<span class="operator">&lt;&gt;</span><span class="number">500</span>;</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> id <span class="keyword">in</span> (<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>);</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> <span class="keyword">not</span> <span class="keyword">in</span> (<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">0</span>);</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> <span class="keyword">not</span> <span class="keyword">exists</span> (<span class="keyword">select</span> <span class="number">1</span> <span class="keyword">from</span> test_02 <span class="keyword">where</span> test_02.id<span class="operator">=</span>test.id);</span><br></pre></td></tr></table></figure>
+
+<h4 id="LIKE通配符"><a href="#LIKE通配符" class="headerlink" title="LIKE通配符"></a><strong>LIKE通配符</strong></h4><p>&emsp;&emsp;当使用模糊搜索时，尽量采用后置的通配符，例如：name||’%’，因为走索引时，其会从前去匹配索引列，这时候是可以找到的，如果采用前匹配，那么查索引就会很麻烦，比如查询所有姓张的人，就可以去搜索’张%’。</p>
+<p>&emsp;&emsp;相反如果你查询所有叫‘明’的人，那么只能是%明。这时候索引如何定位呢？前匹配的情况下，执行计划会更倾向于选择全表扫描。后匹配可以走INDEX RANGE SCAN。</p>
+<p>&emsp;&emsp;所以业务设计的时候，尽量考虑到模糊搜索的问题，要更多的使用后置通配符。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> name <span class="keyword">like</span> 张<span class="operator">||</span><span class="string">&#x27;%&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="条件上包括函数"><a href="#条件上包括函数" class="headerlink" title="条件上包括函数"></a><strong>条件上包括函数</strong></h4><p>&emsp;&emsp;查询条件上尽量不要对索引列使用函数，比如下面这个SQL.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> <span class="built_in">upper</span>(name)<span class="operator">=</span><span class="string">&#x27;SUNYANG&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;这样是不会走索引的，因为索引在建立时会和计算后可能不同，无法定位到索引。但如果查询条件不是对索引列进行计算，那么依然可以走索引。比如</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> name<span class="operator">=</span><span class="built_in">upper</span>(<span class="string">&#x27;sunyang&#x27;</span>);</span><br><span class="line"><span class="comment">--INDEX RANGE SCAN</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;这样的函数还有：to_char、to_date、to_number、trunc等。</p>
+<h4 id="复合索引前导列区分大"><a href="#复合索引前导列区分大" class="headerlink" title="复合索引前导列区分大"></a><strong>复合索引前导列区分大</strong></h4><p>&emsp;&emsp;当复合索引前导列区分小的时候，我们有INDEX SKIP SCAN，当前导列区分度大，且查后导列的时候，前导列的分裂会非常耗资源，执行计划想，还不如全表扫描来的快，然后就索引失效了。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> owner<span class="operator">=</span><span class="string">&#x27;sunyang&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="数据类型的转换"><a href="#数据类型的转换" class="headerlink" title="数据类型的转换"></a><strong>数据类型的转换</strong></h4><p>&emsp;&emsp;当查询条件存在隐式转换时，索引会失效。</p>
+<p>&emsp;&emsp;比如在数据库里id存的number类型，但是在查询时，却用了下面的形式：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> sunyang <span class="keyword">where</span> id<span class="operator">=</span><span class="string">&#x27;123&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Connect-By-Level"><a href="#Connect-By-Level" class="headerlink" title="Connect By Level"></a><strong>Connect By Level</strong></h4><p>&emsp;&emsp;使用connect by level时，不会走索引。</p>
+<h4 id="谓词运算"><a href="#谓词运算" class="headerlink" title="谓词运算"></a><strong>谓词运算</strong></h4><p>&emsp;&emsp;我们在上面说，不能对索引列进行函数运算，这也包括加减乘除的谓词运算，这也会使索引失效。</p>
+<p>&emsp;&emsp;建立一个sunyang表，索引为id，看这个SQL：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> sunyang <span class="keyword">where</span> id<span class="operator">/</span><span class="number">2</span><span class="operator">=</span>:type_id;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;这里很明显对索引列id进行了’/2’除二运算，这时候就会索引失效，这种情况应该改写为：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> sunyang <span class="keyword">where</span> id<span class="operator">=</span>:type_id<span class="operator">*</span><span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;就可以使用索引了。</p>
+<h4 id="Vistual-Index"><a href="#Vistual-Index" class="headerlink" title="Vistual Index"></a><strong>Vistual Index</strong></h4><p>&emsp;&emsp;先说明一下，虚拟索引的建立是否有用，需要看具体的执行计划，如果起作用就可以建一个，如果不起作用就算了。普通索引这么建：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> index idx_test_id <span class="keyword">on</span> test(id);</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;虚拟索引Vistual Index这么建：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> index idx_test_id <span class="keyword">on</span> test(id) nosegment;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;做了一个实验，首先创建一个表：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> test_1116( </span><br><span class="line">id number, </span><br><span class="line">a number </span><br><span class="line">); </span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> INDEX idx_test_1116_id <span class="keyword">on</span> test_1116(id); </span><br><span class="line"><span class="keyword">CREATE</span> INDEX idx_test_1116_a <span class="keyword">on</span> test_1116(a)nosegment; </span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;其中id为普通索引，a为虚拟索引。</p>
+<p>&emsp;&emsp;在表中插入十万条数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">begin</span> </span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">1</span> .. <span class="number">100000</span> loop </span><br><span class="line">        <span class="keyword">insert</span> <span class="keyword">into</span> test_1116 <span class="keyword">values</span> (i,i); </span><br><span class="line"><span class="keyword">end</span> loop; </span><br><span class="line"><span class="keyword">commit</span>; </span><br><span class="line"><span class="keyword">end</span>; </span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;接着分别去执行下面的SQL看时间，由于在内网机做实验，图贴不出来，数据保证真实性。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>(id) <span class="keyword">from</span> test_1116;</span><br><span class="line"><span class="comment">--第一次耗时：0.061秒</span></span><br><span class="line"><span class="comment">--第二次耗时：0.016秒</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>(a) <span class="keyword">from</span> test_1116; </span><br><span class="line"><span class="comment">--第一次耗时：0.031秒</span></span><br><span class="line"><span class="comment">--第二次耗时：0.016秒</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;因为在执行过一次后，oracle对结果集缓存了，所以第二次执行耗时不走索引，走内存就都一样了。</p>
+<p>&emsp;&emsp;可以看到在这种情况下，虚拟索引比普通索引快了一倍。</p>
+<p>&emsp;&emsp;具体虚拟索引的使用细节，这里不再展开讨论。</p>
+<h4 id="Invisible-Index"><a href="#Invisible-Index" class="headerlink" title="Invisible Index"></a><strong>Invisible Index</strong></h4><p>&emsp;&emsp;Invisible Index是oracle 11g提供的新功能，对优化器（还接到前面博客里讲到的CBO吗）不可见，MySQL 也有，MySQL 8.0 中的索引可以隐藏了。我感觉这个功能更主要的是测试用，假如一个表上有那么多索引，一个一个去看执行计划调试就很慢了，这时候不如建一个对表和查询都没有影响的Invisible Index来进行调试，就显得很好了。</p>
+<p>&emsp;&emsp;通过下面的语句来操作索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> index idx_test_id invisible;</span><br><span class="line"><span class="keyword">alter</span> index idx_test_id visible;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;如果想让CBO看到Invisible Index，需要加入这句：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> session <span class="keyword">set</span> optimizer_use_invisible_indexes <span class="operator">=</span> <span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
+
+
 
 
             </div>
@@ -257,7 +317,7 @@
                         <a class="tag-none-link" href="/tags/Index/" rel="tag">Index</a>, <a class="tag-none-link" href="/tags/Sql/" rel="tag">Sql</a>
                     </div>
                     <div class="pull-date">
-                    <span>最后编辑：2021-04-02</span>
+                    <span>最后编辑：2021-04-06</span>
                     </div>
                 </div>
             </footer>
