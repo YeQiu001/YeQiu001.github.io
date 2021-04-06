@@ -15,16 +15,16 @@
   
     <meta name="keywords" content="Hystrix, SpringCloud" />
   
-  <meta name="description" content="本文摘自：kosamino   **1.什么是灾难性雪崩效应？**  &amp;emsp;&amp;emsp;如下图的过程所示，灾难性雪崩形成原因就大致如此：   &amp;emsp;&amp;emsp;造成灾难性雪崩效应的原因，可以简单归结为下述三种：  服务提供者不可用。如：硬件故障、程序BUG、缓存击穿、并发请求量过大等。 重试加大流量。如：用户重试、代码重试逻辑等。 服务调用者不可用。如：同步请求阻塞造成的资源耗尽等。">
+  <meta name="description" content="本文摘自：kosamino  1.什么是灾难性雪崩效应？  &amp;emsp;&amp;emsp;如下图的过程所示，灾难性雪崩形成原因就大致如此：   &amp;emsp;&amp;emsp;造成灾难性雪崩效应的原因，可以简单归结为下述三种：  服务提供者不可用。如：硬件故障、程序BUG、缓存击穿、并发请求量过大等。 重试加大流量。如：用户重试、代码重试逻辑等。 服务调用者不可用。如：同步请求阻塞造成的资源耗尽等。  &amp;em">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hystrix容错保护原理及配置">
 <meta property="og:url" content="https://yeqiu001.github.io/2021/04/06/Hystrix%E5%AE%B9%E9%94%99%E4%BF%9D%E6%8A%A4%E5%8E%9F%E7%90%86%E5%8F%8A%E9%85%8D%E7%BD%AE/index.html">
 <meta property="og:site_name" content="YeQiu Blog">
-<meta property="og:description" content="本文摘自：kosamino   **1.什么是灾难性雪崩效应？**  &amp;emsp;&amp;emsp;如下图的过程所示，灾难性雪崩形成原因就大致如此：   &amp;emsp;&amp;emsp;造成灾难性雪崩效应的原因，可以简单归结为下述三种：  服务提供者不可用。如：硬件故障、程序BUG、缓存击穿、并发请求量过大等。 重试加大流量。如：用户重试、代码重试逻辑等。 服务调用者不可用。如：同步请求阻塞造成的资源耗尽等。">
+<meta property="og:description" content="本文摘自：kosamino  1.什么是灾难性雪崩效应？  &amp;emsp;&amp;emsp;如下图的过程所示，灾难性雪崩形成原因就大致如此：   &amp;emsp;&amp;emsp;造成灾难性雪崩效应的原因，可以简单归结为下述三种：  服务提供者不可用。如：硬件故障、程序BUG、缓存击穿、并发请求量过大等。 重试加大流量。如：用户重试、代码重试逻辑等。 服务调用者不可用。如：同步请求阻塞造成的资源耗尽等。  &amp;em">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://yeqiu001.github.io/images/favicon.ico">
 <meta property="article:published_time" content="2021-04-06T06:50:04.000Z">
-<meta property="article:modified_time" content="2021-04-06T07:13:54.806Z">
+<meta property="article:modified_time" content="2021-04-06T07:18:04.644Z">
 <meta property="article:author" content="YeQiu">
 <meta property="article:tag" content="SpringCloud">
 <meta property="article:tag" content="Hystrix">
@@ -139,7 +139,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            284
+                            279
                         
                         字
                     </li>
@@ -148,14 +148,14 @@
             </header>
             <div class="kratos-post-content">
                 <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                    本文最后编辑于 <time datetime="1617693234806"></time> 前，其中的内容可能需要更新。
+                    本文最后编辑于 <time datetime="1617693484644"></time> 前，其中的内容可能需要更新。
                 </div>
                 
                 <hr />
                 <blockquote>
 <p>本文摘自：<a href="cnblogs.com/jing99/p/11625306.html">kosamino</a></p>
 </blockquote>
-<center> **1.什么是灾难性雪崩效应？**
+<center><h3><b>1.什么是灾难性雪崩效应？</b></h3></center>
 
 <p>&emsp;&emsp;如下图的过程所示，灾难性雪崩形成原因就大致如此：</p>
 <img src="/2021/04/06/Hystrix%E5%AE%B9%E9%94%99%E4%BF%9D%E6%8A%A4%E5%8E%9F%E7%90%86%E5%8F%8A%E9%85%8D%E7%BD%AE/Hystrix1.jpg" class="">
@@ -237,14 +237,14 @@
             const excerpt       = `
 本文摘自：kosamino
 
- **1.什么是灾难性雪崩效应？**
+1.什么是灾难性雪崩效应？
 
 &emsp;&emsp;如下图的过程所示，灾难性雪崩形成原因就大致如此：
 
 
 &emsp;&emsp;造成灾难性雪崩效应的原因，可以简单归结为下述三种：
 
-服务提...`;
+服务提供者不可用...`;
             let _URL;
             switch (dest) {
                 case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
