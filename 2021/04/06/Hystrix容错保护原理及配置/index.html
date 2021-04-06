@@ -24,7 +24,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://yeqiu001.github.io/images/favicon.ico">
 <meta property="article:published_time" content="2021-04-06T06:50:04.000Z">
-<meta property="article:modified_time" content="2021-04-06T07:21:06.240Z">
+<meta property="article:modified_time" content="2021-04-06T07:21:58.035Z">
 <meta property="article:author" content="YeQiu">
 <meta property="article:tag" content="SpringCloud">
 <meta property="article:tag" content="Hystrix">
@@ -139,7 +139,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            579
+                            703
                         
                         字
                     </li>
@@ -148,7 +148,7 @@
             </header>
             <div class="kratos-post-content">
                 <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                    本文最后编辑于 <time datetime="1617693666240"></time> 前，其中的内容可能需要更新。
+                    本文最后编辑于 <time datetime="1617693718035"></time> 前，其中的内容可能需要更新。
                 </div>
                 
                 <hr />
@@ -173,6 +173,7 @@
 <p>&emsp;&emsp;在Spring cloud中处理服务雪崩效应，都需要依赖hystrix组件。在pom文件中都需要引入下述依赖：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-hystrix<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
+<p>&emsp;&emsp;通常来说，开发的时候，使用ribbon处理服务灾难雪崩效应（因此章节2示例均采用Ribbon，章节3是Feign实现方式详解），开发的成本低。维护成本高。使用feign技术处理服务灾难雪崩效应，开发的成本较高，维护成本低。</p>
 
             </div>
             
