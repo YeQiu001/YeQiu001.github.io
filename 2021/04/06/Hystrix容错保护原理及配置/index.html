@@ -24,7 +24,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://yeqiu001.github.io/images/favicon.ico">
 <meta property="article:published_time" content="2021-04-06T06:50:04.000Z">
-<meta property="article:modified_time" content="2021-04-06T07:36:25.173Z">
+<meta property="article:modified_time" content="2021-04-06T07:37:47.438Z">
 <meta property="article:author" content="YeQiu">
 <meta property="article:tag" content="SpringCloud">
 <meta property="article:tag" content="Hystrix">
@@ -139,7 +139,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            ~5.50K
+                            ~5.78K
                         
                         字
                     </li>
@@ -148,7 +148,7 @@
             </header>
             <div class="kratos-post-content">
                 <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                    本文最后编辑于 <time datetime="1617694585173"></time> 前，其中的内容可能需要更新。
+                    本文最后编辑于 <time datetime="1617694667438"></time> 前，其中的内容可能需要更新。
                 </div>
                 
                 <hr />
@@ -196,6 +196,11 @@
 <p>&emsp;&emsp;启动器：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@EnableCircuitBreaker</span> - 开启断路器。就是开启hystrix服务容错能力。</span></span><br><span class="line"><span class="comment"> * 当应用启用Hystrix服务容错的时候，必须增加的一个注解。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@EnableCircuitBreaker</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@EnableCaching</span> - 开启spring cloud对cache的支持。</span></span><br><span class="line"><span class="comment"> * 可以自动的使用请求缓存，访问redis等cache服务。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@EnableCaching</span></span><br><span class="line"><span class="meta">@EnableEurekaClient</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HystrixApplicationClientApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(HystrixApplicationClientApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p>&emsp;&emsp;spring cloud会检查每个幂等性请求，如果请求完全相同（路径、参数等完全一致），则首先访问缓存redis，查看缓存数据，如果缓存中有数据，则不调用远程服务application service。如果缓存中没有数据，则调用远程服务，并将结果缓存到redis中，供后续请求使用。</p>
+<p>&emsp;&emsp;如果请求是一个非幂等性操作，则会根据方法的注解来动态管理redis中的缓存数据，避免数据不一致。</p>
+<blockquote>
+<p>注意：使用请求缓存会导致很多的隐患，如：缓存管理不当导致的数据不同步、问题排查困难等。在商业项目中，解决服务雪崩效应不推荐使用请求缓存。</p>
+</blockquote>
 
             </div>
             
