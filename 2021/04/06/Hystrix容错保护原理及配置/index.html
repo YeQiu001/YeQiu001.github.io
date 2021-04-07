@@ -24,7 +24,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://yeqiu001.github.io/images/favicon.ico">
 <meta property="article:published_time" content="2021-04-06T06:50:04.000Z">
-<meta property="article:modified_time" content="2021-04-06T09:27:26.562Z">
+<meta property="article:modified_time" content="2021-04-07T01:09:02.109Z">
 <meta property="article:author" content="YeQiu">
 <meta property="article:tag" content="SpringCloud">
 <meta property="article:tag" content="Hystrix">
@@ -139,7 +139,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            ~39.31K
+                            ~42.93K
                         
                         字
                     </li>
@@ -148,7 +148,7 @@
             </header>
             <div class="kratos-post-content">
                 <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                    本文最后编辑于 <time datetime="1617701246562"></time> 前，其中的内容可能需要更新。
+                    本文最后编辑于 <time datetime="1617757742109"></time> 前，其中的内容可能需要更新。
                 </div>
                 
                 <hr />
@@ -390,6 +390,46 @@
 
 <p>&emsp;&emsp;这种实现逻辑的优势是，可以获取远程调用服务的异常信息。为后期异常处理提供参考。</p>
 <p>&emsp;&emsp;工厂实现方案和实现类的实现方案，没有效率和逻辑上的优缺点对比。只是在远程服务调用异常的处理上有区别。</p>
+<center><h3><b>4 Hystrix Dashboard - 数据监控</b></h3></center>
+
+<p>&emsp;&emsp;Hystrix dashboard是一款针对Hystrix进行实时监控的工具，通过Hystrix Dashboard我们可以在直观地看到各Hystrix Command的请求响应时间, 请求成功率等数据。</p>
+<h4 id="4-1-实现单服务单节点数据监控"><a href="#4-1-实现单服务单节点数据监控" class="headerlink" title="4.1 实现单服务单节点数据监控"></a>4.1 实现单服务单节点数据监控</h4><p>&emsp;&emsp;在使用了Hystrix技术的application client工程中增加下述依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-hystrix-dashboard<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;在启动器上增加注解@EnableHystrixDashboard、@EnableHystrix。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableCircuitBreaker</span></span><br><span class="line"><span class="meta">@EnableCaching</span></span><br><span class="line"><span class="meta">@EnableEurekaClient</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableHystrixDashboard</span></span><br><span class="line"><span class="meta">@EnableHystrix</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HystrixDashboardApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(HystrixDashboardApplication.class, args);</span><br><span class="line">    &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;启动工程后，如果触发了Hystrix，则可以通过<a href="http://ip:port/hystrix.stream得到监控数据。这种监控数据的获取都是JSON数据。">http://ip:port/hystrix.stream得到监控数据。这种监控数据的获取都是JSON数据。</a></p>
+<p>&emsp;&emsp;且数据量级较大。不易于查看。可以使用Hystrix Dashboard提供的视图界面来观察监控结果。视图界面访问路径为<a href="http://ip:port/hystrix。视图界面中各数据的含义如下：">http://ip:port/hystrix。视图界面中各数据的含义如下：</a></p>
+<img src="/2021/04/06/Hystrix%E5%AE%B9%E9%94%99%E4%BF%9D%E6%8A%A4%E5%8E%9F%E7%90%86%E5%8F%8A%E9%85%8D%E7%BD%AE/Hystrix6.png" class="">
+
+<blockquote>
+<p>建议：监控中心建议使用独立工程来实现。这样更便于维护。</p>
+</blockquote>
+<h4 id="4-2-使用Turbine实现多服务或集群的数据监控"><a href="#4-2-使用Turbine实现多服务或集群的数据监控" class="headerlink" title="4.2 使用Turbine实现多服务或集群的数据监控"></a>4.2 使用Turbine实现多服务或集群的数据监控</h4><p>&emsp;&emsp;Turbine是聚合服务器发送事件流数据的一个工具，hystrix的监控中，只能监控单个服务或单个节点，实际生产中都为多服务集群，因此可以通过turbine来监控多集群服务。</p>
+<p>&emsp;&emsp;Turbine在Hystrix Dashboard中的作用如下：</p>
+<img src="/2021/04/06/Hystrix%E5%AE%B9%E9%94%99%E4%BF%9D%E6%8A%A4%E5%8E%9F%E7%90%86%E5%8F%8A%E9%85%8D%E7%BD%AE/Hystrix7.png" class="">
+
+<h5 id="4-2-1多服务监控"><a href="#4-2-1多服务监控" class="headerlink" title="4.2.1多服务监控"></a>4.2.1多服务监控</h5><p>&emsp;&emsp;当使用Turbine来监控多服务状态时，需提供一个独立工程来搭建Turbine服务逻辑。并在工程中增加下述依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Dashboard需要的依赖信息。 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-hystrix-dashboard<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- Turbine需要的依赖信息。 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-turbine<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-netflix-turbine<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;并在全局配置文件中增加下述配置：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">#配置Eureka中的serviceId列表，标记监控哪些服务，多个服务名用逗号分隔，可以配置监控的服务，必须开启了Hystrix Dashboard。</span></span><br><span class="line"><span class="meta">turbine.appConfig</span>=<span class="string">hystrix-application-client,test-feign-application-client</span></span><br><span class="line"><span class="comment">#指定聚合哪些集群，多个使用&quot;,&quot;分割，default代表默认集群。集群就是服务名称。需要配置clusterNameExpression使用。</span></span><br><span class="line"><span class="meta">turbine.aggregator.clusterConfig</span>=<span class="string">default</span></span><br><span class="line"><span class="comment"># 1. clusterNameExpression指定集群名称，默认表达式appName；此时：turbine.aggregator.clusterConfig需要配置想要监控的应用名称；</span></span><br><span class="line"><span class="comment"># 2. 当clusterNameExpression: default时，turbine.aggregator.clusterConfig可以不写，因为默认就是default；代表所有集群都需要监控</span></span><br><span class="line"><span class="meta">turbine.clusterNameExpression</span>=<span class="string">&quot;default&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;在应用启动类中，增加注解@EnableTurbine，代表开启Turbine服务，提供多服务集群监控数据收集。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@EnableTurbine</span> - 开启Turbine功能。</span></span><br><span class="line"><span class="comment"> *  可以实现收集多个App client的Dashboard监控数据。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableTurbine</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HystrixTurbineApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(HystrixTurbineApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;最后再Hystrix Dashboard视图监控服务中，使用<a href="http://ip:port/turbine.stream作为监控数据来源，提供可视化监控界面">http://ip:port/turbine.stream作为监控数据来源，提供可视化监控界面</a></p>
+<blockquote>
+<p>注意：使用Turbine做多服务监控的时候，要求全局配置文件中配置的服务列表命名在Eureka注册中心中可见。就是先启动Application client再启动Turbine。</p>
+</blockquote>
+<h5 id="4-2-2服务集群监控"><a href="#4-2-2服务集群监控" class="headerlink" title="4.2.2服务集群监控"></a>4.2.2服务集群监控</h5><p>&emsp;&emsp;在spring cloud中，服务名相同的多服务结点会自动形成集群，并提供服务。在Turbine中，监控服务集群不需要提供任何的特殊配置，因为turbine.appConfig已经配置了要监控的服务名称。集群监控数据会自动收集。</p>
+<p>&emsp;&emsp;在Hystrix Dashboard的可视化监控界面中，hosts信息会显示出服务集群中的节点数量。如图所示：</p>
+<img src="/2021/04/06/Hystrix%E5%AE%B9%E9%94%99%E4%BF%9D%E6%8A%A4%E5%8E%9F%E7%90%86%E5%8F%8A%E9%85%8D%E7%BD%AE/Hystrix5.jpg" class="">
+
+<blockquote>
+<p>注意：使用Turbine做服务集群监控的时候，必须先启动application client集群，再启动Turbine。保证Turbine启动的时候，可以在eureka注册中心中发现要监控的服务集群。</p>
+</blockquote>
 
             </div>
             
@@ -489,7 +529,7 @@
                         <a class="tag-none-link" href="/tags/Hystrix/" rel="tag">Hystrix</a>, <a class="tag-none-link" href="/tags/SpringCloud/" rel="tag">SpringCloud</a>
                     </div>
                     <div class="pull-date">
-                    <span>最后编辑：2021-04-06</span>
+                    <span>最后编辑：2021-04-07</span>
                     </div>
                 </div>
             </footer>
