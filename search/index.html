@@ -18,7 +18,7 @@
   <meta name="description" content="叶湫的博客">
 <meta property="og:type" content="website">
 <meta property="og:title" content="YeQiu Blog">
-<meta property="og:url" content="https://yeqiu001.github.io/categories/Spring-Security/Study/index.html">
+<meta property="og:url" content="https://yeqiu001.github.io/search/index.html">
 <meta property="og:site_name" content="YeQiu Blog">
 <meta property="og:description" content="叶湫的博客">
 <meta property="og:locale" content="zh_CN">
@@ -123,75 +123,36 @@
                     
 
         <section class="col-md-8">
-    
-        
-        
-            <article class="kratos-hentry clearfix">
-                <div class="kratos-entry-border-new clearfix">
-                    
-                    <div class="kratos-entry-thumb-new">
-                        <a href="/2021/03/25/SpringSecurityDemoStudy/">
-                            
-                                <img class="kratos-entry-thumb-new-img">
-                            
-                        </a>
-                    </div>
-                    <div class="kratos-post-inner-new">
-                        <header class="kratos-entry-header-new">
-                                <a class="label-link" href="/categories/Spring-Security/">Spring Security</a> <a class="label-link" href="/categories/Spring-Security/Study/">Study</a> <a class="label-link" href="/categories/Spring-Security/Study/Demo/">Demo</a>
-                            <h2 class="kratos-entry-title-new"><a href="/2021/03/25/SpringSecurityDemoStudy/">Spring Security Demo 学习</a>
-                        </header>
-                        <div class="kratos-entry-content-new">
-                            <p>
-                                
-                                    
-本问主要基于Spring boot框架进行Demo说明，首先创建一个Springboot 工程。
-
-1.创建Springboot 工程2.引入Spring Security 依赖&emsp;&emsp;我们可以直接引入Spring ...
-                                
-                            </p>
-                        </div>
-                    </div>
-                    <footer class="kratos-post-meta-new">
-                        <span class="pull-left">
-                            <a>
-                                <i class="fa fa-calendar"></i>
-                                2021-03-25
-                            </a>
-                            <a>
-                                
-                                    <i class="fa fa-tags"></i>
-                                    <a class="tag-none-link" href="/tags/Spring-Boot/" rel="tag">Spring Boot</a>, <a class="tag-none-link" href="/tags/Spring-Security/" rel="tag">Spring Security</a>, <a class="tag-none-link" href="/tags/demo/" rel="tag">demo</a>
-                                
-                            </a>
-                            
-                                <!-- 当前仅支持valine/waline自带的统计功能 -->
-                                
-                            
-                            
-                                <!-- 当前仅支持waline自带的统计功能 -->
-                                
-                            
-                        </span>
-                        <span class="pull-right">
-                            <a class="read-more" href="/2021/03/25/SpringSecurityDemoStudy/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
-                        </span>
-                    </footer>
-                </div>
-            </article>
-        
-    
-    
-    
-</section>
-
-
-    <div class="hidden">
-        <!-- 加载文章阅读对应的统计功能，评论自带的那种 -->
-        
+    <div class="kratos-hentry kratos-post-inner clearfix">
+        <div class="kratos-post-content">
+            <h2 class="title-h2 text-center">搜索</h2>
+            <form class="input-group" onsubmit="return inpSearch();">
+                <input class="form-input input-lg" id="search-input" maxlength="80" name="s" placeholder="有什么想找找看的呢o(*￣▽￣*)ブ" required type="search">
+                <button class="btn btn-primary" type="submit">找一找~</button>
+            </form>
+        </div>
     </div>
 
+    <div class="alert alert-info" id="kr-search-notice">
+        这里是 YeQiu Blog 的搜索引擎~
+    </div>
 
+    <div id="result-posts">
+        <div class="kratos-hentry kratos-post-inner clearfix">
+            <div class="kratos-post-content">
+                <p>搜索多个关键词时请用空格分割，例如「SpringCloud demo Spring Boot」这样；</p>
+                <p>您也可以使用这些标签碰碰运气哦~</p>
+                <p class="search-demo-tags">
+                    <a href="/tags/SpringCloud/" style="font-size: 24px; color: #6c7588">SpringCloud</a> <a href="/tags/demo/" style="font-size: 18px; color: #b2b7be">demo</a> <a href="/tags/Spring-Boot/" style="font-size: 18px; color: #b2b7be">Spring Boot</a> <a href="/tags/spring-security/" style="font-size: 18px; color: #b2b7be">spring security</a> <a href="/tags/target/" style="font-size: 18px; color: #b2b7be">target</a> <a href="/tags/Spring/" style="font-size: 18px; color: #b2b7be">Spring</a> <a href="/tags/Annotation/" style="font-size: 18px; color: #b2b7be">Annotation</a> <a href="/tags/Spring-Security/" style="font-size: 18px; color: #b2b7be">Spring Security</a> <a href="/tags/Ribbon/" style="font-size: 18px; color: #b2b7be">Ribbon</a> <a href="/tags/Sql/" style="font-size: 18px; color: #b2b7be">Sql</a> <a href="/tags/Index/" style="font-size: 18px; color: #b2b7be">Index</a> <a href="/tags/Hystrix/" style="font-size: 18px; color: #b2b7be">Hystrix</a> <a href="/tags/JAVA/" style="font-size: 18px; color: #b2b7be">JAVA</a> <a href="/tags/Gson/" style="font-size: 18px; color: #b2b7be">Gson</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<script>var searchDataFile = "/search.json";</script>
+<script defer src="/js/local-search.min.js"></script>
 
                 
             
