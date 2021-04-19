@@ -24,7 +24,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://yeqiu001.github.io/images/favicon.ico">
 <meta property="article:published_time" content="2021-04-19T06:04:45.000Z">
-<meta property="article:modified_time" content="2021-04-19T09:06:41.949Z">
+<meta property="article:modified_time" content="2021-04-19T09:17:10.865Z">
 <meta property="article:author" content="YeQiu">
 <meta property="article:tag" content="Springboot">
 <meta property="article:tag" content="ScheduledTask">
@@ -139,7 +139,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            1211
+                            ~1.96K
                         
                         字
                     </li>
@@ -148,7 +148,7 @@
             </header>
             <div class="kratos-post-content">
                 <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                    本文最后编辑于 <time datetime="1618823201949"></time> 前，其中的内容可能需要更新。
+                    本文最后编辑于 <time datetime="1618823830865"></time> 前，其中的内容可能需要更新。
                 </div>
                 
                 <hr />
@@ -170,6 +170,15 @@
 <h4 id="2-一个定时任务阻塞"><a href="#2-一个定时任务阻塞" class="headerlink" title="2.一个定时任务阻塞"></a>2.一个定时任务阻塞</h4><p>​    为了实现此场景的条件，将定时任务1中添加死循环逻辑。源码改动如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Scheduled(cron = &quot;0/1 * * * * ?&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">scheduledTask1</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        System.out.println(Thread.currentThread().getName() + <span class="string">&quot;---scheduledTask1 &quot;</span> + System.currentTimeMillis());</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            Thread.sleep(<span class="number">5000</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
+<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/cTirY8"><img src="https://z3.ax1x.com/2021/04/19/cTirY8.jpg" alt="cTirY8.jpg"></a></p>
+<p>从控制台可以得出：多个定时任务时串行执行的,如果一个任务出现阻塞，其他的任务都会受到影响。</p>
+<h3 id="二、多任务并行执行"><a href="#二、多任务并行执行" class="headerlink" title="二、多任务并行执行"></a>二、多任务并行执行</h3><p>如果要实现并行执行，启动类需要在上面的基础上新增注解@EnableAsync。任务方法上新增@Async注解。</p>
+<p>源码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ScheduledTask</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Scheduled(cron = &quot;0/1 * * * * ?&quot;)</span></span><br><span class="line">    <span class="meta">@Async</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">scheduledTask1</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        System.out.println(Thread.currentThread().getName() + <span class="string">&quot;---scheduledTask1 &quot;</span> + System.currentTimeMillis());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Scheduled(cron = &quot;0/1 * * * * ?&quot;)</span></span><br><span class="line">    <span class="meta">@Async</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">scheduledTask2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(Thread.currentThread().getName() + <span class="string">&quot;---scheduledTask2 &quot;</span> + System.currentTimeMillis());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>执行结果如下图：</p>
+<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/cTFqC8"><img src="https://z3.ax1x.com/2021/04/19/cTFqC8.jpg" alt="cTFqC8.jpg"></a></p>
+<p>从控制台中打印的线程名发现：每次执行任务时，都是创建新的线程执行，使用默认线程池SimpleAsyncTaskExecutor。</p>
 
             </div>
             
